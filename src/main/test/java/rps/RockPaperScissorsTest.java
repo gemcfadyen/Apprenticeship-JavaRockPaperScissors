@@ -45,6 +45,13 @@ public class RockPaperScissorsTest {
         assertThat(winner, is(Gesture.PAPER));
     }
 
+    @Test
+    public void playingPaperAsSecondGestureAgainstRockWins() {
+        Gesture winner = play(Gesture.PAPER, Gesture.ROCK);
+
+        assertThat(winner, is(Gesture.PAPER));
+    }
+
     private Gesture play(Gesture gesture1, Gesture gesture2) {
         if (gesture1.equals(Gesture.ROCK) &&
                 !gesture2.equals(Gesture.PAPER)) {
