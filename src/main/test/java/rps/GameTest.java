@@ -83,7 +83,7 @@ public class GameTest {
         PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
 
         game = new Game(promptSpy);
-        game.play();
+        game.singleRound();
 
         assertThat(promptSpy.numberOfTimesPlayersHaveBeenPrompted(), is(2));
         assertThat(promptSpy.getGesturesEntered(), contains(ROCK, PAPER));
@@ -94,8 +94,16 @@ public class GameTest {
         PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
 
         game = new Game(promptSpy);
-        game.play();
+        game.singleRound();
 
         assertThat(writer.toString(), is("Player two won"));
     }
+
+//    @Test
+//    public void playersReplay() {
+//        PromptSpy promptSpy = new PromptSpy();
+//
+//        game = new Game(promptSpy);
+//
+//    }
 }

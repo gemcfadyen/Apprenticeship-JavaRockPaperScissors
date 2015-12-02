@@ -1,5 +1,8 @@
 package rps;
 
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
 public class Game {
     public static final String PLAYER_ONE = "Player one ";
     public static final String PLAYER_TWO = "Player two ";
@@ -9,7 +12,17 @@ public class Game {
         this.prompt = prompt;
     }
 
+    public static void main(String... args) {
+        Prompt commandLinePrompt = new CommandLinePrompt(new InputStreamReader(System.in), new OutputStreamWriter(System.out));
+        Game game = new Game(commandLinePrompt);
+        game.play();
+    }
+
     public void play() {
+        singleRound();
+    }
+
+    void singleRound() {
         prompt.promptForGestureFrom(PLAYER_ONE);
         Gesture playerOneGesture = prompt.readValidGestureFrom(PLAYER_ONE);
 

@@ -83,6 +83,7 @@ public class CommandLinePrompt implements Prompt {
     private void write(String message) {
         try {
             writer.write(message);
+            writer.flush();
         } catch (IOException e) {
             throw new WriteException(e);
         }
