@@ -13,7 +13,6 @@ public class RockPaperScissorsTest {
     @Test
     public void playingRockAsFirstGestureAgainstScissorsWins() {
         String rock = "Rock";
-        String scissors = "Scissors";
 
         String winner = play(Gesture.ROCK.name(), Gesture.SCISSORS.name());
 
@@ -22,10 +21,9 @@ public class RockPaperScissorsTest {
 
     @Test
     public void playingRockAsSecondGestureAgainstScissorsWins() {
-        String scissors = "Scissors";
         String rock = "Rock";
 
-        String winner = play(scissors, rock);
+        String winner = play(Gesture.SCISSORS.name(), Gesture.ROCK.name());
 
         assertThat(winner, is(rock));
     }
@@ -33,9 +31,8 @@ public class RockPaperScissorsTest {
     @Test
     public void playingScissorsAsFirstGestureAgainstPaperWins() {
         String scissors = "Scissors";
-        String paper = "Paper";
 
-        String winner = play(scissors, paper);
+        String winner = play(Gesture.ROCK.name(), Gesture.PAPER.name());
 
         assertThat(winner, is(scissors));
 
@@ -44,9 +41,8 @@ public class RockPaperScissorsTest {
     @Test
     public void playingScissorsAsSecondGestureAgainstPaperWins() {
         String scissors = "Scissors";
-        String paper = "Paper";
 
-        String winner = play(paper, scissors);
+        String winner = play(Gesture.PAPER.name(), Gesture.SCISSORS.name());
 
         assertThat(winner, is(scissors));
 
@@ -55,12 +51,10 @@ public class RockPaperScissorsTest {
     @Test
     public void playingPaperAsFirstGestureAgainstRockWins() {
         String paper = "Paper";
-        String rock = "Rock";
 
-        String winner = play(paper, rock);
+        String winner = play(Gesture.PAPER.name(), Gesture.ROCK.name());
 
         assertThat(winner, is(paper));
-
     }
 
     private String play(String gesture1, String gesture2) {
