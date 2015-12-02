@@ -11,10 +11,10 @@ public class Game {
 
     public void play() {
         prompt.promptForGestureFrom(PLAYER_ONE);
-        Gesture playerOneGesture = prompt.readInput();
+        Gesture playerOneGesture = prompt.readValidGestureFrom(PLAYER_ONE);
 
         prompt.promptForGestureFrom(PLAYER_TWO);
-        Gesture playerTwoGesture = prompt.readInput();
+        Gesture playerTwoGesture = prompt.readValidGestureFrom(PLAYER_TWO);
 
         String status = evaluate(playerOneGesture, playerTwoGesture);
 

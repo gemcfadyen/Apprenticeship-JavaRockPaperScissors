@@ -32,7 +32,7 @@ public class PromptSpy implements Prompt {
     }
 
     @Override
-    public Gesture readInput() {
+    public Gesture readValidGestureFrom(String playerId) {
         Gesture gesture = Gesture.withId(Integer.valueOf(playersChoiceOfGestures[currentInputIndex++]));
         gesturesChosenByPlayers.add(gesture);
         return gesture;

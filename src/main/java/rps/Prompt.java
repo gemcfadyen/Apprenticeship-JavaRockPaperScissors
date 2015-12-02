@@ -5,5 +5,5 @@ public interface Prompt {
 
     void display(String status);
 
-    Gesture readInput();
+    Gesture readValidGestureFrom(String playerId);
 }

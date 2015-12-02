@@ -7,7 +7,6 @@ import java.io.StringWriter;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static rps.Gesture.ROCK;
 
 public class PromptTest {
 
@@ -38,7 +37,17 @@ public class PromptTest {
     public void readsInputFromPlayer() {
         StringWriter writer = new StringWriter();
         Prompt prompt = new CommandLinePrompt(new StringReader("1"), writer);
-        Gesture gesture = prompt.readInput();
+        Gesture gesture = prompt.readValidGestureFrom("player one");
         assertThat(gesture, is(Gesture.ROCK));
+        assertThat(writer.toString(), is(""));
+    }
+
+    @Test
+    public void repromptsUserWhenTheyEnterNonNumericInput() {
+        StringWriter writer = new StringWriter();
+        Prompt prompt = new CommandLinePrompt(new StringReader("abc\n2"), writer);
+        Gesture gesture = prompt.readValidGestureFrom("Player one");
+        assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
+        assertThat(gesture, is(Gesture.PAPER));
     }
 }

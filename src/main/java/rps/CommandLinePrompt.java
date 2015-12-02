@@ -26,15 +26,39 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public Gesture readInput() {
-        String input = "";
+    public Gesture readValidGestureFrom(String playerId) {
+        String userInput = readInput();
 
+        while (!valid(userInput)) {
+            promptForGestureFrom(playerId);
+            userInput = readInput();
+        }
+
+        return Gesture.withId(Integer.valueOf(userInput));
+    }
+
+    private boolean valid(String input) {
+
+        return isInteger(input);
+    }
+
+    private boolean isInteger(String input) {
+        try {
+            Integer.valueOf(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private String readInput() {
+        String input = "";
         try {
             input = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Gesture.withId(Integer.valueOf(input));
+        return input;
     }
 
     private String formatGesturesForPrompt() {
