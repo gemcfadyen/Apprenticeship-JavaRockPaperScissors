@@ -16,6 +16,7 @@ public class PromptTest {
         Prompt prompt = new CommandLinePrompt(new StringReader(""), writer);
         prompt.promptPlayerOneForGesture();
 
-        assertThat(writer.toString(), is("Player one - please enter:\n1 for Rock\n2 for Paper\n3 for Scissors\n"));
+        assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
     }
+
 }

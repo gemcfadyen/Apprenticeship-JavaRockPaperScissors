@@ -15,8 +15,22 @@ public class CommandLinePrompt implements Prompt {
 
     @Override
     public void promptPlayerOneForGesture() {
+        String message = "Player one - please enter:\n" + formatGesturesForPrompt();
+        write(message);
+    }
+
+    private String formatGesturesForPrompt() {
+        Gesture[] gestures = Gesture.values();
+        String optionsForDisplay = "";
+        for (Gesture gesture : gestures) {
+            optionsForDisplay += gesture.getId() + " for " + gesture.name() + "\n";
+        }
+        return optionsForDisplay;
+    }
+
+    private void write(String message) {
         try {
-            writer.write("Player one - please enter:\n1 for Rock\n2 for Paper\n3 for Scissors\n");
+            writer.write(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
