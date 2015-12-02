@@ -39,16 +39,15 @@ public class CommandLinePrompt implements Prompt {
 
     @Override
     public void promptForReplay() {
-
+        write("Enter " + ReplayOption.Y + " to replay");
     }
 
     @Override
     public ReplayOption readValidReplayOption() {
-        return null;
+        return ReplayOption.of(readInput());
     }
 
     private boolean valid(String input) {
-
         return isInteger(input) && isValidGestureId(Integer.valueOf(input));
     }
 
@@ -76,7 +75,7 @@ public class CommandLinePrompt implements Prompt {
         try {
             input = reader.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ReadException(e);
         }
         return input;
     }
@@ -84,18 +83,36 @@ public class CommandLinePrompt implements Prompt {
     private String formatGesturesForPrompt() {
         Gesture[] gestures = Gesture.values();
         String optionsForDisplay = "";
+        int numberOfGestures = gestures.length - 1;
         for (Gesture gesture : gestures) {
-            optionsForDisplay += gesture.getId() + " for " + gesture.name() + "\n";
+            optionsForDisplay += gesture.getId() + " for " + gesture.name();
+            optionsForDisplay = optionallyAddNewLineCharacter(optionsForDisplay, numberOfGestures);
+            numberOfGestures--;
         }
         return optionsForDisplay;
     }
 
+    private String optionallyAddNewLineCharacter(String optionsForDisplay, int numberOfGestures) {
+        if (lastLine(numberOfGestures)) {
+            optionsForDisplay += newLine();
+        }
+        return optionsForDisplay;
+    }
+
+    private boolean lastLine(int numberOfGestures) {
+        return numberOfGestures != 0;
+    }
+
     private void write(String message) {
         try {
-            writer.write(message);
+            writer.write(message + newLine());
             writer.flush();
         } catch (IOException e) {
             throw new WriteException(e);
         }
+    }
+
+    private String newLine() {
+        return "\n";
     }
 }
