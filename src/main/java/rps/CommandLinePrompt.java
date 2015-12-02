@@ -19,6 +19,11 @@ public class CommandLinePrompt implements Prompt {
         write(message);
     }
 
+    @Override
+    public Gesture readInput() {
+        return null;
+    }
+
     private String formatGesturesForPrompt() {
         Gesture[] gestures = Gesture.values();
         String optionsForDisplay = "";
@@ -32,7 +37,7 @@ public class CommandLinePrompt implements Prompt {
         try {
             writer.write(message);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new WriteException(e);
         }
     }
 }

@@ -19,4 +19,9 @@ public class PromptTest {
         assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
     }
 
+    @Test(expected = WriteException.class)
+    public void exceptionThrownWhenErrorWritingToPrompt() {
+        Prompt prompt = new CommandLinePrompt(new StringReader(""), new StringWriterStub());
+        prompt.promptPlayerOneForGesture();
+    }
 }
