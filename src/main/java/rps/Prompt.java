@@ -1,7 +1,7 @@
 package rps;
 
 public interface Prompt {
-    void promptPlayerOneForGesture();
+    void promptForGestureFrom(String playerId);
 
     Gesture readInput();
 }

@@ -3,6 +3,9 @@ package rps;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static rps.Gesture.PAPER;
@@ -15,7 +18,7 @@ public class GameTest {
 
     @Before
     public void setup() {
-        game = new Game(new PromptStub(""));
+        game = new Game(new PromptSpy(""));
     }
 
     @Test
@@ -73,12 +76,13 @@ public class GameTest {
     }
 
     @Test
-    public void playerOnePromptedToSelectTheirGesture() {
-        PromptStub promptStub = new PromptStub("1");
+    public void playersPromptedToSelectTheirGesture() {
+        PromptSpy promptSpy = new PromptSpy("1", "2");
 
-        game = new Game(promptStub);
+        game = new Game(promptSpy);
         game.play();
 
-        assertThat(promptStub.readInput(), is(ROCK));
+        assertThat(promptSpy.numberOfTimesPlayersHaveBeenPrompted(), is(2));
+        assertThat(promptSpy.getGesturesEntered(), contains(ROCK, PAPER));
     }
 }

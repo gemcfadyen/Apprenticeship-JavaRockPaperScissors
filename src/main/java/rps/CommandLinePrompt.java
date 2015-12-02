@@ -14,7 +14,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     @Override
-    public void promptPlayerOneForGesture() {
+    public void promptForGestureFrom(String playerId) {
         String message = "Player one - please enter:\n" + formatGesturesForPrompt();
         write(message);
     }

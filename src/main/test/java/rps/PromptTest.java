@@ -11,10 +11,10 @@ import static org.junit.Assert.assertThat;
 public class PromptTest {
 
     @Test
-    public void promptPlayerOneForInput() {
+    public void promptPlayerForInput() {
         StringWriter writer = new StringWriter();
         Prompt prompt = new CommandLinePrompt(new StringReader(""), writer);
-        prompt.promptPlayerOneForGesture();
+        prompt.promptForGestureFrom("Player one");
 
         assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
     }
@@ -22,6 +22,6 @@ public class PromptTest {
     @Test(expected = WriteException.class)
     public void exceptionThrownWhenErrorWritingToPrompt() {
         Prompt prompt = new CommandLinePrompt(new StringReader(""), new StringWriterStub());
-        prompt.promptPlayerOneForGesture();
+        prompt.promptForGestureFrom("Player one");
     }
 }

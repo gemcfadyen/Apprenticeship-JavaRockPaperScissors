@@ -8,8 +8,12 @@ public class Game {
     }
 
     public void play() {
-        prompt.promptPlayerOneForGesture();
-        Gesture gesture  = prompt.readInput();
+        prompt.promptForGestureFrom("Player one");
+        Gesture playerOneGesture = prompt.readInput();
+
+        prompt.promptForGestureFrom("Player two");
+        Gesture playerTwoGesture = prompt.readInput();
+
 
     }
 
