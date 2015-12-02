@@ -28,9 +28,23 @@ public class RockPaperScissorsTest {
         assertThat(winner, is(rock));
     }
 
+    @Test
+    public void playingScissorsAsFirstGestureAgainstPaperWins() {
+        String scissors = "Scissors";
+        String paper = "Paper";
+
+        String winner = play(scissors, paper);
+
+        assertThat(winner, is(scissors));
+
+    }
 
     private String play(String gesture1, String gesture2) {
-        return "Rock";
+        if (gesture1.equals("Rock") || gesture2.equals("Rock")) {
+            return "Rock";
+        } else {
+            return "Scissors";
+        }
     }
 
 }
