@@ -12,62 +12,49 @@ public class RockPaperScissorsTest {
 
     @Test
     public void playingRockAsFirstGestureAgainstScissorsWins() {
-        String rock = "Rock";
+        Gesture winner = play(Gesture.ROCK, Gesture.SCISSORS);
 
-        String winner = play(Gesture.ROCK.name(), Gesture.SCISSORS.name());
-
-        assertThat(winner, is(rock));
+        assertThat(winner, is(Gesture.ROCK));
     }
 
     @Test
     public void playingRockAsSecondGestureAgainstScissorsWins() {
-        String rock = "Rock";
+        Gesture winner = play(Gesture.SCISSORS, Gesture.ROCK);
 
-        String winner = play(Gesture.SCISSORS.name(), Gesture.ROCK.name());
-
-        assertThat(winner, is(rock));
+        assertThat(winner, is(Gesture.ROCK));
     }
 
     @Test
     public void playingScissorsAsFirstGestureAgainstPaperWins() {
-        String scissors = "Scissors";
+        Gesture winner = play(Gesture.ROCK, Gesture.PAPER);
 
-        String winner = play(Gesture.ROCK.name(), Gesture.PAPER.name());
-
-        assertThat(winner, is(scissors));
-
+        assertThat(winner, is(Gesture.SCISSORS));
     }
 
     @Test
     public void playingScissorsAsSecondGestureAgainstPaperWins() {
-        String scissors = "Scissors";
+        Gesture winner = play(Gesture.PAPER, Gesture.SCISSORS);
 
-        String winner = play(Gesture.PAPER.name(), Gesture.SCISSORS.name());
-
-        assertThat(winner, is(scissors));
-
+        assertThat(winner, is(Gesture.SCISSORS));
     }
 
     @Test
     public void playingPaperAsFirstGestureAgainstRockWins() {
-        String paper = "Paper";
+        Gesture winner = play(Gesture.PAPER, Gesture.ROCK);
 
-        String winner = play(Gesture.PAPER.name(), Gesture.ROCK.name());
-
-        assertThat(winner, is(paper));
+        assertThat(winner, is(Gesture.PAPER));
     }
 
-    private String play(String gesture1, String gesture2) {
-        if (gesture1.equalsIgnoreCase("Rock") &&
-                !gesture2.equalsIgnoreCase("Paper")) {
-            return "Rock";
-        } else if (gesture2.equalsIgnoreCase("Rock") && !gesture1.equalsIgnoreCase("Paper")) {
-            return "Rock";
-        } else if (gesture1.equalsIgnoreCase("Paper") && gesture2.equalsIgnoreCase("Rock")) {
-            return "Paper";
+    private Gesture play(Gesture gesture1, Gesture gesture2) {
+        if (gesture1.equals(Gesture.ROCK) &&
+                !gesture2.equals(Gesture.PAPER)) {
+            return Gesture.ROCK;
+        } else if (gesture2.equals(Gesture.ROCK) && !gesture1.equals(Gesture.PAPER)) {
+            return Gesture.ROCK;
+        } else if (gesture1.equals(Gesture.PAPER) && gesture2.equals(Gesture.ROCK)) {
+            return Gesture.PAPER;
         }
-        return "Scissors";
+
+        return Gesture.SCISSORS;
     }
-
-
 }
