@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 public class RockPaperScissorsTest {
 
     @Test
-    public void rockBeatsScissors() {
+    public void playingRockAsFirstGestureAgainstScissorsWins() {
         String rock = "Rock";
         String scissors = "Scissors";
 
@@ -16,6 +16,18 @@ public class RockPaperScissorsTest {
 
         assertThat(winner, is(rock));
     }
+
+
+    @Test
+    public void playingRockAsSecondGestureAgainstScissorsWins() {
+        String scissors = "Scissors";
+        String rock = "Rock";
+
+        String winner = play(scissors, rock);
+
+        assertThat(winner, is(rock));
+    }
+
 
     private String play(String gesture1, String gesture2) {
         return "Rock";
