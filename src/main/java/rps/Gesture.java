@@ -18,6 +18,19 @@ public enum Gesture {
         return SCISSORS;
     }
 
+    public boolean strongerThan(Gesture gesture) {
+        if (gesture == PAPER && id == 1) {
+            return false;
+        }
+        if (gesture == SCISSORS && id == 2) {
+            return false;
+        }
 
+        if(gesture == ROCK && id == 3) {
+            return false;
+        }
+
+        return true;
+    }
 }
 

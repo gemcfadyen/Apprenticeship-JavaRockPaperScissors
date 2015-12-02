@@ -27,5 +27,33 @@ public class GestureTest {
         assertThat(gesture, is(SCISSORS));
     }
 
+    @Test
+    public void rockBeatsScissors() {
+        assertThat(ROCK.strongerThan(SCISSORS), is(true));
+    }
 
+    @Test
+    public void paperBeatsRock() {
+        assertThat(PAPER.strongerThan(ROCK), is(true));
+    }
+
+    @Test
+    public void scissorsBeatsPaper() {
+        assertThat(SCISSORS.strongerThan(PAPER), is(true));
+    }
+
+    @Test
+    public void rockLoosesOverPaper() {
+        assertThat(ROCK.strongerThan(PAPER), is(false));
+    }
+
+    @Test
+    public void paperLoosesOverScissors() {
+        assertThat(PAPER.strongerThan(SCISSORS), is(false));
+    }
+
+    @Test
+    public void scissorsLoosesOverRock() {
+       assertThat(SCISSORS.strongerThan(ROCK), is(false));
+    }
 }
