@@ -39,6 +39,17 @@ public class RockPaperScissorsTest {
 
     }
 
+    @Test
+    public void playingScissorsAsSecondGestureAgainstPaperWins() {
+        String scissors = "Scissors";
+        String paper = "Paper";
+
+        String winner = play(paper, scissors);
+
+        assertThat(winner, is(scissors));
+
+    }
+    
     private String play(String gesture1, String gesture2) {
         if (gesture1.equals("Rock") || gesture2.equals("Rock")) {
             return "Rock";
@@ -46,5 +57,6 @@ public class RockPaperScissorsTest {
             return "Scissors";
         }
     }
+
 
 }
