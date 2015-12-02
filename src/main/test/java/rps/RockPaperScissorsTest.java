@@ -6,17 +6,19 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class RockPaperScissorsTest {
+    private enum Gesture {
+        ROCK, PAPER, SCISSORS
+    }
 
     @Test
     public void playingRockAsFirstGestureAgainstScissorsWins() {
         String rock = "Rock";
         String scissors = "Scissors";
 
-        String winner = play(rock, scissors);
+        String winner = play(Gesture.ROCK.name(), Gesture.SCISSORS.name());
 
         assertThat(winner, is(rock));
     }
-
 
     @Test
     public void playingRockAsSecondGestureAgainstScissorsWins() {
@@ -49,13 +51,28 @@ public class RockPaperScissorsTest {
         assertThat(winner, is(scissors));
 
     }
-    
+
+    @Test
+    public void playingPaperAsFirstGestureAgainstRockWins() {
+        String paper = "Paper";
+        String rock = "Rock";
+
+        String winner = play(paper, rock);
+
+        assertThat(winner, is(paper));
+
+    }
+
     private String play(String gesture1, String gesture2) {
-        if (gesture1.equals("Rock") || gesture2.equals("Rock")) {
+        if (gesture1.equalsIgnoreCase("Rock") &&
+                !gesture2.equalsIgnoreCase("Paper")) {
             return "Rock";
-        } else {
-            return "Scissors";
+        } else if (gesture2.equalsIgnoreCase("Rock") && !gesture1.equalsIgnoreCase("Paper")) {
+            return "Rock";
+        } else if (gesture1.equalsIgnoreCase("Paper") && gesture2.equalsIgnoreCase("Rock")) {
+            return "Paper";
         }
+        return "Scissors";
     }
 
 
