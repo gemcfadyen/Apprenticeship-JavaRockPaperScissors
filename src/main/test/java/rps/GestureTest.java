@@ -54,6 +54,66 @@ public class GestureTest {
 
     @Test
     public void scissorsLoosesOverRock() {
-       assertThat(SCISSORS.strongerThan(ROCK), is(false));
+        assertThat(SCISSORS.strongerThan(ROCK), is(false));
+    }
+
+    @Test
+    public void getIdOfRock() {
+        assertThat(ROCK.getId(), is(1));
+    }
+
+    @Test
+    public void getIdOfPaper() {
+        assertThat(PAPER.getId(), is(2));
+    }
+
+    @Test
+    public void getIdOfScissors() {
+        assertThat(SCISSORS.getId(), is(3));
+    }
+
+    @Test
+    public void twoRocksMatch() {
+        assertThat(ROCK.matches(ROCK), is(true));
+    }
+
+    @Test
+    public void twoPapersMatch() {
+        assertThat(PAPER.matches(PAPER), is(true));
+    }
+
+    @Test
+    public void twoScissorsMatch() {
+        assertThat(SCISSORS.matches(SCISSORS), is(true));
+    }
+
+    @Test
+    public void rockDoesNotMatchPaper() {
+        assertThat(ROCK.matches(PAPER), is(false));
+    }
+
+    @Test
+    public void rockDoesNotMatchScissors() {
+        assertThat(ROCK.matches(SCISSORS), is(false));
+    }
+
+    @Test
+    public void paperDoesNotMatchRock() {
+        assertThat(PAPER.matches(ROCK), is(false));
+    }
+
+    @Test
+    public void paperDoesNotMatchScissors() {
+        assertThat(PAPER.matches(SCISSORS), is(false));
+    }
+
+    @Test
+    public void scissorsDoesNotMatchRock() {
+        assertThat(SCISSORS.matches(ROCK), is(false));
+    }
+
+    @Test
+    public void scissorsDoesNotMatchPaper() {
+        assertThat(SCISSORS.matches(PAPER), is(false));
     }
 }

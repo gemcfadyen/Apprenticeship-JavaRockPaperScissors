@@ -21,42 +21,54 @@ public class GameTest {
     @Test
     public void firstPlayerChoosesRockWhichBeatsSecondPlayerChoosingScissors() {
         String status = game.play(ROCK, SCISSORS);
-
-        assertThat(status, is("player 1 won"));
+        assertThat(status, is("Player 1 won"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichLoosesAgainstSecondPlayerChoosingRock() {
         String status = game.play(SCISSORS, ROCK);
-
-        assertThat(status, is("player 2 won"));
+        assertThat(status, is("Player 2 won"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichBeatsSecondPlayerChoosingPaper() {
         String status = game.play(SCISSORS, PAPER);
-
-        assertThat(status, is("player 1 won"));
+        assertThat(status, is("Player 1 won"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichLoosesAgainstSecondPlayerChoosingScissors() {
         String status = game.play(PAPER, SCISSORS);
-
-        assertThat(status, is("player 2 won"));
+        assertThat(status, is("Player 2 won"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichBeatsSecondPlayerChoosingRock() {
         String status = game.play(PAPER, ROCK);
-
-        assertThat(status, is("player 1 won"));
+        assertThat(status, is("Player 1 won"));
     }
 
     @Test
     public void firstPlayerChoosesRockWhichLoosesAgainstSecondPlayerChoosingPaper() {
         String status = game.play(ROCK, PAPER);
+        assertThat(status, is("Player 2 won"));
+    }
 
-        assertThat(status, is("player 2 won"));
+    @Test
+    public void bothPlayersChooseRockSoGameDraws() {
+        String status = game.play(ROCK, ROCK);
+        assertThat(status, is("Draw"));
+    }
+
+    @Test
+    public void bothPlayersChoosePaperSoGameDraws() {
+        String status = game.play(PAPER, PAPER);
+        assertThat(status, is("Draw"));
+    }
+
+    @Test
+    public void bothPlayersChooseScissorsSoGameDraws() {
+        String status = game.play(SCISSORS, SCISSORS);
+        assertThat(status, is("Draw"));
     }
 }

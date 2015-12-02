@@ -26,11 +26,19 @@ public enum Gesture {
             return false;
         }
 
-        if(gesture == ROCK && id == 3) {
+        if (gesture == ROCK && id == 3) {
             return false;
         }
 
         return true;
+    }
+
+    public boolean matches(Gesture gesture) {
+        return id == gesture.getId();
+    }
+
+    public int getId() {
+        return id;
     }
 }
 
