@@ -1,27 +1,40 @@
 package rps;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
 public class CommandLinePrompt implements Prompt {
-    private final Reader reader;
+    private final BufferedReader reader;
     private final Writer writer;
 
     public CommandLinePrompt(Reader reader, Writer writer) {
-        this.reader = reader;
+        this.reader = new BufferedReader(reader);
         this.writer = writer;
     }
 
     @Override
     public void promptForGestureFrom(String playerId) {
-        String message = "Player one - please enter:\n" + formatGesturesForPrompt();
+        String message = playerId + " - please enter:\n" + formatGesturesForPrompt();
         write(message);
     }
 
     @Override
+    public void display(String status) {
+        write(status);
+    }
+
+    @Override
     public Gesture readInput() {
-        return null;
+        String input = "";
+
+        try {
+            input = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Gesture.withId(Integer.valueOf(input));
     }
 
     private String formatGesturesForPrompt() {

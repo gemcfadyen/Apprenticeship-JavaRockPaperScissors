@@ -1,6 +1,8 @@
 package rps;
 
 public class Game {
+    public static final String PLAYER_ONE = "Player one ";
+    public static final String PLAYER_TWO = "Player two ";
     private final Prompt prompt;
 
     public Game(Prompt prompt) {
@@ -8,13 +10,15 @@ public class Game {
     }
 
     public void play() {
-        prompt.promptForGestureFrom("Player one");
+        prompt.promptForGestureFrom(PLAYER_ONE);
         Gesture playerOneGesture = prompt.readInput();
 
-        prompt.promptForGestureFrom("Player two");
+        prompt.promptForGestureFrom(PLAYER_TWO);
         Gesture playerTwoGesture = prompt.readInput();
 
+        String status = evaluate(playerOneGesture, playerTwoGesture);
 
+        prompt.display(status);
     }
 
     String evaluate(Gesture gesture1, Gesture gesture2) {
@@ -22,9 +26,9 @@ public class Game {
             return "Draw";
         }
         if (gesture1.strongerThan(gesture2)) {
-            return "Player 1 won";
+            return PLAYER_ONE + "won";
         }
 
-        return "Player 2 won";
+        return PLAYER_TWO + "won";
     }
 }

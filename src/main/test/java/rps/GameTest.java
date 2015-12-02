@@ -3,7 +3,8 @@ package rps;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -15,46 +16,48 @@ import static rps.Gesture.SCISSORS;
 public class GameTest {
 
     private Game game;
+    private Writer writer;
 
     @Before
     public void setup() {
-        game = new Game(new PromptSpy(""));
+        writer = new StringWriter();
+        game = new Game(new PromptSpy(writer, ""));
     }
 
     @Test
     public void firstPlayerChoosesRockWhichBeatsSecondPlayerChoosingScissors() {
         String status = game.evaluate(ROCK, SCISSORS);
-        assertThat(status, is("Player 1 won"));
+        assertThat(status, is("Player one won"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichLoosesAgainstSecondPlayerChoosingRock() {
         String status = game.evaluate(SCISSORS, ROCK);
-        assertThat(status, is("Player 2 won"));
+        assertThat(status, is("Player two won"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichBeatsSecondPlayerChoosingPaper() {
         String status = game.evaluate(SCISSORS, PAPER);
-        assertThat(status, is("Player 1 won"));
+        assertThat(status, is("Player one won"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichLoosesAgainstSecondPlayerChoosingScissors() {
         String status = game.evaluate(PAPER, SCISSORS);
-        assertThat(status, is("Player 2 won"));
+        assertThat(status, is("Player two won"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichBeatsSecondPlayerChoosingRock() {
         String status = game.evaluate(PAPER, ROCK);
-        assertThat(status, is("Player 1 won"));
+        assertThat(status, is("Player one won"));
     }
 
     @Test
     public void firstPlayerChoosesRockWhichLoosesAgainstSecondPlayerChoosingPaper() {
         String status = game.evaluate(ROCK, PAPER);
-        assertThat(status, is("Player 2 won"));
+        assertThat(status, is("Player two won"));
     }
 
     @Test
@@ -77,12 +80,22 @@ public class GameTest {
 
     @Test
     public void playersPromptedToSelectTheirGesture() {
-        PromptSpy promptSpy = new PromptSpy("1", "2");
+        PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
 
         game = new Game(promptSpy);
         game.play();
 
         assertThat(promptSpy.numberOfTimesPlayersHaveBeenPrompted(), is(2));
         assertThat(promptSpy.getGesturesEntered(), contains(ROCK, PAPER));
+    }
+
+    @Test
+    public void playerOneEntersStrongerGestureThanPlayerTwoSoWins() {
+        PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
+
+        game = new Game(promptSpy);
+        game.play();
+
+        assertThat(writer.toString(), is("Player two won"));
     }
 }
