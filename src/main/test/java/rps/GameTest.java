@@ -21,7 +21,7 @@ public class GameTest {
     @Before
     public void setup() {
         writer = new StringWriter();
-        game = new Game(new PromptSpy(writer, ""));
+        game = new Game(new PromptSpy(writer, new String[] {""}));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class GameTest {
 
     @Test
     public void playersPromptedToSelectTheirGesture() {
-        PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
+        PromptSpy promptSpy = new PromptSpy(writer, new String[] {"1", "2"});
 
         game = new Game(promptSpy);
         game.singleRound();
@@ -91,7 +91,7 @@ public class GameTest {
 
     @Test
     public void playerOneEntersStrongerGestureThanPlayerTwoSoWins() {
-        PromptSpy promptSpy = new PromptSpy(writer, "1", "2");
+        PromptSpy promptSpy = new PromptSpy(writer, new String[] {"1", "2"});
 
         game = new Game(promptSpy);
         game.singleRound();
@@ -99,11 +99,16 @@ public class GameTest {
         assertThat(writer.toString(), is("Player two won"));
     }
 
-//    @Test
-//    public void playersReplay() {
-//        PromptSpy promptSpy = new PromptSpy();
-//
-//        game = new Game(promptSpy);
-//
-//    }
+    @Test
+    public void playerAskedForReplay() {
+        PromptSpy promptSpy = new PromptSpy(writer, new String[] {"1", "2", "2", "2"}, new String[]{"Y", "N"});
+
+        game = new Game(promptSpy);
+        game.play();
+
+        String writerOutput = writer.toString();
+        assertThat(writerOutput.contains("Player two won"), is(true));
+        assertThat(writerOutput.contains("Draw"), is(true));
+        assertThat(promptSpy.numberOfTimesPlayerPromptedForReplay(), is(2));
+    }
 }

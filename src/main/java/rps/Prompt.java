@@ -6,4 +6,8 @@ public interface Prompt {
     void display(String status);
 
     Gesture readValidGestureFrom(String playerId);
+
+    void promptForReplay();
+
+    ReplayOption readValidReplayOption();
 }

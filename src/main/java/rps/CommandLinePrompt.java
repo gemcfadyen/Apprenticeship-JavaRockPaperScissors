@@ -37,6 +37,16 @@ public class CommandLinePrompt implements Prompt {
         return Gesture.withId(Integer.valueOf(userInput));
     }
 
+    @Override
+    public void promptForReplay() {
+
+    }
+
+    @Override
+    public ReplayOption readValidReplayOption() {
+        return null;
+    }
+
     private boolean valid(String input) {
 
         return isInteger(input) && isValidGestureId(Integer.valueOf(input));

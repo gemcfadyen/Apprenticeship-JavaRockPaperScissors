@@ -8,11 +8,20 @@ import java.util.List;
 public class PromptSpy implements Prompt {
     private Writer writer;
     private String[] playersChoiceOfGestures;
+    private String[] playersChoiceOfReplayOptions;
     private int currentInputIndex = 0;
     private List<Gesture> gesturesChosenByPlayers = new ArrayList<>();
     private int numberOfTimesPlayerHasBeenPrompted = 0;
+    private int currentReplayInputIndex = 0;
+    private int numberOfTimesPlayerPromptedForReplay = 0;
 
-    public PromptSpy(Writer writer, String... playersChoiceOfGestures) {
+    public PromptSpy(Writer writer, String[] playersChoiceOfGestures, String[] replayOption) {
+        this.writer = writer;
+        this.playersChoiceOfGestures = playersChoiceOfGestures;
+        this.playersChoiceOfReplayOptions = replayOption;
+    }
+
+    public PromptSpy(Writer writer, String[] playersChoiceOfGestures) {
         this.writer = writer;
         this.playersChoiceOfGestures = playersChoiceOfGestures;
     }
@@ -38,8 +47,22 @@ public class PromptSpy implements Prompt {
         return gesture;
     }
 
+    @Override
+    public void promptForReplay() {
+        numberOfTimesPlayerPromptedForReplay++;
+    }
+
+    @Override
+    public ReplayOption readValidReplayOption() {
+        return ReplayOption.of(playersChoiceOfReplayOptions[currentReplayInputIndex++]);
+    }
+
     public int numberOfTimesPlayersHaveBeenPrompted() {
-        return numberOfTimesPlayerHasBeenPrompted;
+        return numberOfTimesPlayerHasBeenPrompted++;
+    }
+
+    public int numberOfTimesPlayerPromptedForReplay() {
+        return numberOfTimesPlayerPromptedForReplay;
     }
 
     public List<Gesture> getGesturesEntered() {

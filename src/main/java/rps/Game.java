@@ -3,6 +3,8 @@ package rps;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import static rps.ReplayOption.*;
+
 public class Game {
     public static final String PLAYER_ONE = "Player one ";
     public static final String PLAYER_TWO = "Player two ";
@@ -19,7 +21,13 @@ public class Game {
     }
 
     public void play() {
-        singleRound();
+        ReplayOption replayOption = Y;
+
+        while (replayOption.equals(Y)) {
+            singleRound();
+            prompt.promptForReplay();
+            replayOption = prompt.readValidReplayOption();
+        }
     }
 
     void singleRound() {
