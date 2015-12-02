@@ -39,7 +39,17 @@ public class CommandLinePrompt implements Prompt {
 
     private boolean valid(String input) {
 
-        return isInteger(input);
+        return isInteger(input) && isValidGestureId(Integer.valueOf(input));
+    }
+
+    private boolean isValidGestureId(int numericInput) {
+        for (Gesture gesture : Gesture.values()) {
+            if (gesture.getId() == numericInput) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean isInteger(String input) {

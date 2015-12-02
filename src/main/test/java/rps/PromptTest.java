@@ -50,4 +50,13 @@ public class PromptTest {
         assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
         assertThat(gesture, is(Gesture.PAPER));
     }
+
+    @Test
+    public void repromptsUserWhenTheyEnterANumberOutsideOfGestureRange() {
+        StringWriter writer = new StringWriter();
+        Prompt prompt = new CommandLinePrompt(new StringReader("7\n2"), writer);
+        Gesture gesture = prompt.readValidGestureFrom("Player one");
+        assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
+        assertThat(gesture, is(Gesture.PAPER));
+    }
 }
