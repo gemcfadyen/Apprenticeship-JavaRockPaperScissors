@@ -19,26 +19,29 @@ public enum Gesture {
     }
 
     public boolean strongerThan(Gesture gesture) {
-        if (gesture == PAPER && id == 1) {
-            return false;
-        }
-        if (gesture == SCISSORS && id == 2) {
-            return false;
-        }
-
-        if (gesture == ROCK && id == 3) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean matches(Gesture gesture) {
-        return id == gesture.getId();
+        return !paperWrapsRock(gesture)
+                && !scissorsCutPaper(gesture)
+                && !rockBluntsScissors(gesture);
     }
 
     public int getId() {
         return id;
+    }
+
+    private boolean paperWrapsRock(Gesture gesture) {
+        return gesture == PAPER && id == ROCK.id;
+    }
+
+    private boolean scissorsCutPaper(Gesture gesture) {
+        return gesture == SCISSORS && id == PAPER.id;
+    }
+
+    private boolean rockBluntsScissors(Gesture gesture) {
+        return gesture == ROCK && id == SCISSORS.id;
+    }
+
+    public boolean matches(Gesture gesture) {
+        return id == gesture.getId();
     }
 }
 

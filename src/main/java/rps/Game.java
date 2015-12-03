@@ -6,8 +6,10 @@ import java.io.OutputStreamWriter;
 import static rps.ReplayOption.*;
 
 public class Game {
-    public static final String PLAYER_ONE = "Player one ";
-    public static final String PLAYER_TWO = "Player two ";
+    private static final String PLAYER_ONE = "Player one ";
+    private static final String PLAYER_TWO = "Player two ";
+    private static final String DRAW = "Draw";
+    private static final String WON = "won";
     private final Prompt prompt;
 
     public Game(Prompt prompt) {
@@ -15,8 +17,7 @@ public class Game {
     }
 
     public static void main(String... args) {
-        Prompt commandLinePrompt = new CommandLinePrompt(new InputStreamReader(System.in), new OutputStreamWriter(System.out));
-        Game game = new Game(commandLinePrompt);
+        Game game = new Game(buildPrompt());
         game.play();
     }
 
@@ -24,32 +25,46 @@ public class Game {
         ReplayOption replayOption = Y;
 
         while (replayOption.equals(Y)) {
-            singleRound();
-            prompt.promptForReplay();
-            replayOption = prompt.readValidReplayOption();
+            playSingleRound();
+            replayOption = getReplayOption();
         }
     }
 
-    void singleRound() {
-        prompt.promptForGestureFrom(PLAYER_ONE);
-        Gesture playerOneGesture = prompt.readValidGestureFrom(PLAYER_ONE);
-
-        prompt.promptForGestureFrom(PLAYER_TWO);
-        Gesture playerTwoGesture = prompt.readValidGestureFrom(PLAYER_TWO);
-
-        String status = evaluate(playerOneGesture, playerTwoGesture);
+    void playSingleRound() {
+        String status = evaluate(
+                getGestureFrom(PLAYER_ONE),
+                getGestureFrom(PLAYER_TWO)
+        );
 
         prompt.display(status);
     }
 
     String evaluate(Gesture gesture1, Gesture gesture2) {
         if (gesture1.matches(gesture2)) {
-            return "Draw";
-        }
-        if (gesture1.strongerThan(gesture2)) {
-            return PLAYER_ONE + "won";
+            return DRAW;
         }
 
-        return PLAYER_TWO + "won";
+        if (gesture1.strongerThan(gesture2)) {
+            return PLAYER_ONE + WON;
+        }
+
+        return PLAYER_TWO + WON;
+    }
+
+    private Gesture getGestureFrom(String playerId) {
+        prompt.promptForGestureFrom(playerId);
+        return prompt.readValidGestureFrom(playerId);
+    }
+
+    private ReplayOption getReplayOption() {
+        prompt.promptForReplay();
+        return prompt.readValidReplayOption();
+    }
+
+    private static CommandLinePrompt buildPrompt() {
+        return new CommandLinePrompt(
+                new InputStreamReader(System.in),
+                new OutputStreamWriter(System.out)
+        );
     }
 }
