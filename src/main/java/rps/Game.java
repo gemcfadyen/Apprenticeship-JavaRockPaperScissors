@@ -62,17 +62,24 @@ public class Game {
     }
 
     private Gesture getGestureFrom(int playerIndex) {
-        Player currentPlayer = players[playerIndex];
-        prompt.promptForGestureFrom(currentPlayer.getName());
-        Gesture gesture = currentPlayer.getGesture();
-
+        Player currentPlayer = getCurrentPlayer(playerIndex);
+        Gesture gesture = getGestureFrom(currentPlayer);
         printGesture(gesture, currentPlayer.getName());
+
         return gesture;
     }
 
-    private Gesture printGesture(Gesture gesture, String playerName) {
+    private Player getCurrentPlayer(int playerIndex) {
+        return players[playerIndex];
+    }
+
+    private Gesture getGestureFrom(Player currentPlayer) {
+        prompt.promptForGestureFrom(currentPlayer.getName());
+        return currentPlayer.getGesture();
+    }
+
+    private void printGesture(Gesture gesture, String playerName) {
         prompt.display(playerName + " chose " + gesture.getId() + " - " + gesture.name());
-        return gesture;
     }
 
     private ReplayOption getReplayOption() {

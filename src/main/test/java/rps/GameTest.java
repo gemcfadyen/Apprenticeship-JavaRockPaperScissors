@@ -14,7 +14,7 @@ import static rps.Gesture.ROCK;
 import static rps.Gesture.SCISSORS;
 
 public class GameTest {
-    public static final String[] NO_GESTURES = null;
+    private static final String[] NO_GESTURES = null;
     private Game game;
     private Writer writer;
 
@@ -22,7 +22,7 @@ public class GameTest {
     public void setup() {
         writer = new StringWriter();
         PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""},new String[]{"N"});
-        game = new Game(gamePrompt, new Player[]{new HumanPlayer("Human-1", gamePrompt), new HumanPlayer("Human-2", gamePrompt)});
+        game = new Game(gamePrompt, new Player[]{createHumanPlayer(gamePrompt, "Human-1"), createHumanPlayer(gamePrompt, "Human-2")});
     }
 
     @Test
@@ -84,7 +84,10 @@ public class GameTest {
         PromptSpy player1PromptSpy = createPromptSpyWithUserInput("1");
         PromptSpy player2PromptSpy = createPromptSpyWithUserInput("2");
         PromptSpy gamePrompt = new PromptSpy(writer, null, new String[]{"N"});
-        game = new Game(gamePrompt, new Player[]{new HumanPlayer("one", player1PromptSpy), new HumanPlayer("two", player2PromptSpy)});
+        game = new Game(gamePrompt, new Player[]{
+                createHumanPlayer(player1PromptSpy, "one"),
+                createHumanPlayer(player2PromptSpy, "two")}
+        );
 
         game.playSingleRound();
 
@@ -98,8 +101,8 @@ public class GameTest {
         PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[] {"N"});
         game = new Game(gamePrompt,
                 new Player[]{
-                        new HumanPlayer("one", createPromptSpyWithUserInput("1")),
-                        new HumanPlayer("two", createPromptSpyWithUserInput("2"))}
+                        createHumanPlayer(createPromptSpyWithUserInput("1"), "one"),
+                        createHumanPlayer(createPromptSpyWithUserInput("2"), "two")}
         );
 
         game.playSingleRound();
@@ -114,11 +117,10 @@ public class GameTest {
         PromptSpy player1PromptSpy = createPromptSpyWithUserInput("1", "2");
         PromptSpy player2PromptSpy = createPromptSpyWithUserInput("2", "2");
         PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[]{"Y", "N"});
-
         game = new Game(gamePrompt,
                 new Player[]{
-                        new HumanPlayer("one", player1PromptSpy),
-                        new HumanPlayer("two", player2PromptSpy)}
+                        createHumanPlayer(player1PromptSpy, "one"),
+                        createHumanPlayer(player2PromptSpy, "two")}
         );
 
         game.play();
@@ -130,5 +132,9 @@ public class GameTest {
 
     private PromptSpy createPromptSpyWithUserInput(String... input) {
         return new PromptSpy(writer, input, new String[]{"N"});
+    }
+
+    private HumanPlayer createHumanPlayer(PromptSpy player1PromptSpy, String name) {
+        return new HumanPlayer(name, player1PromptSpy);
     }
 }
