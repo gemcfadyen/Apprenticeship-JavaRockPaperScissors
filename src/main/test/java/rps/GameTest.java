@@ -20,7 +20,8 @@ public class GameTest {
     @Before
     public void setup() {
         writer = new StringWriter();
-        game = new Game(new PromptSpy(writer, new String[] {""}));
+        PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""},new String[]{"N"});
+        game = new Game(gamePrompt, new Player[]{new HumanPlayer("Human-1", gamePrompt), new HumanPlayer("Human-2", gamePrompt)});
     }
 
     @Test
@@ -79,18 +80,23 @@ public class GameTest {
 
     @Test
     public void playersPromptedToSelectTheirGesture() {
-        PromptSpy promptSpy = createPromptSpyWithUserInput("1", "2");
-        game = new Game(promptSpy);
+        PromptSpy player1PromptSpy = createPromptSpyWithUserInput(new String[]{"1"});
+        PromptSpy player2PromptSpy = createPromptSpyWithUserInput(new String[]{"2"});
+        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[]{"N"});
+        game = new Game(gamePrompt, new Player[]{new HumanPlayer("one", player1PromptSpy), new HumanPlayer("two", player2PromptSpy)});
 
         game.playSingleRound();
 
-        assertThat(promptSpy.numberOfTimesPlayersHaveBeenPrompted(), is(2));
-        assertThat(promptSpy.getGesturesEntered(), contains(ROCK, PAPER));
+        assertThat(player1PromptSpy.getGesturesEntered(), contains(ROCK));
+        assertThat(player2PromptSpy.getGesturesEntered(), contains(PAPER));
     }
 
     @Test
     public void playerOneEntersStrongerGestureThanPlayerTwoSoWins() {
-        game = new Game(createPromptSpyWithUserInput("1", "2"));
+        PromptSpy player1PromptSpy = createPromptSpyWithUserInput(new String[]{"1"});
+        PromptSpy player2PromptSpy = createPromptSpyWithUserInput(new String[]{"2"});
+        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[] {"N"});
+        game = new Game(gamePrompt, new Player[]{new HumanPlayer("one", player1PromptSpy), new HumanPlayer("two", player2PromptSpy)});
 
         game.playSingleRound();
 
@@ -99,18 +105,23 @@ public class GameTest {
 
     @Test
     public void playerAskedForReplay() {
-        PromptSpy promptSpy = new PromptSpy(writer, new String[] {"1", "2", "2", "2"}, new String[]{"Y", "N"});
-        game = new Game(promptSpy);
+        PromptSpy player1PromptSpy = createPromptSpyWithUserInput(new String[]{"1", "2"});
+        PromptSpy player2PromptSpy = createPromptSpyWithUserInput(new String[]{"2", "2"});
+        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[] {"Y", "N"});
+        game = new Game(gamePrompt, new Player[]{new HumanPlayer("one", player1PromptSpy), new HumanPlayer("two", player2PromptSpy)});
 
         game.play();
 
         String output = writer.toString();
         assertThat(output.contains("Player two won"), is(true));
         assertThat(output.contains("Draw"), is(true));
-        assertThat(promptSpy.numberOfTimesPlayerPromptedForReplay(), is(2));
+
+        assertThat(gamePrompt.numberOfTimesPlayerPromptedForReplay(), is(2));
+        assertThat(player1PromptSpy.getGesturesEntered(), contains(ROCK, PAPER));
+        assertThat(player2PromptSpy.getGesturesEntered(), contains(PAPER, PAPER));
     }
 
-    private PromptSpy createPromptSpyWithUserInput(String... input) {
-        return new PromptSpy(writer, input);
+    private PromptSpy createPromptSpyWithUserInput(String[] input) {
+        return new PromptSpy(writer, input, new String[]{"N"});
     }
 }

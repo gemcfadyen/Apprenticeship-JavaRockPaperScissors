@@ -12,8 +12,7 @@ public class ComputerPlayerTest {
 
     @Test
     public void generatesRock() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(ROCK.getId());
-        Player player = new ComputerPlayer(gestureIdGenerator);
+        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(ROCK.getId()));
 
         Gesture gesture = player.getGesture();
 
@@ -22,8 +21,7 @@ public class ComputerPlayerTest {
 
     @Test
     public void generatesPaper() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(PAPER.getId());
-        Player player = new ComputerPlayer(gestureIdGenerator);
+        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(PAPER.getId()));
 
         Gesture gesture = player.getGesture();
 
@@ -32,11 +30,19 @@ public class ComputerPlayerTest {
 
     @Test
     public void generateScissors() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(SCISSORS.getId());
-        Player player = new ComputerPlayer(gestureIdGenerator);
+        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(SCISSORS.getId()));
 
         Gesture gesture = player.getGesture();
 
         assertThat(gesture, is(SCISSORS));
+    }
+
+    @Test
+    public void getsId() {
+        Player player = new ComputerPlayer("Robot", new GestureIdGeneratorStub(SCISSORS.getId()));
+
+        String name = player.getName();
+
+        assertThat(name, is("Robot"));
     }
 }

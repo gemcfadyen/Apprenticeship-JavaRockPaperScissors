@@ -20,11 +20,16 @@ public class PromptSpy implements Prompt {
         this.playersChoiceOfGestures = playersChoiceOfGestures;
         this.playersChoiceOfReplayOptions = replayOption;
     }
+//
+//    public PromptSpy(Writer writer, String[] playersChoiceOfGestures) {
+//        this.writer = writer;
+//        this.playersChoiceOfGestures = playersChoiceOfGestures;
+////        this.playersChoiceOfReplayOptions = playersChoiceOfGestures;
+//    }
 
-    public PromptSpy(Writer writer, String[] playersChoiceOfGestures) {
-        this.writer = writer;
-        this.playersChoiceOfGestures = playersChoiceOfGestures;
-    }
+//    public PromptSpy(String... replayOptions) {
+//        this.playersChoiceOfReplayOptions = replayOptions;
+//    }
 
     @Override
     public void promptForGestureFrom(String playerId) {
