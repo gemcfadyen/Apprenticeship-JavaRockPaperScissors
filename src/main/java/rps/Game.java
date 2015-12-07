@@ -22,10 +22,11 @@ public class Game {
     }
 
     public static void main(String... args) {
-        SecureRandomWrapper secureRandom = new SecureRandomWrapper(new SecureRandom());
-        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new RandomNumber(1, secureRandom));
         CommandLinePrompt prompt = buildPrompt();
-        Game game = new Game(prompt, createPlayers(gestureIdGenerator, prompt));
+        Game game = new Game(
+                prompt,
+                createPlayers(createGestureIdGenerator(), prompt)
+        );
 
         game.play();
     }
@@ -63,7 +64,15 @@ public class Game {
     private Gesture getGestureFrom(int playerIndex) {
         Player currentPlayer = players[playerIndex];
         prompt.promptForGestureFrom(currentPlayer.getName());
-        return currentPlayer.getGesture();
+        Gesture gesture = currentPlayer.getGesture();
+
+        printGesture(gesture, currentPlayer.getName());
+        return gesture;
+    }
+
+    private Gesture printGesture(Gesture gesture, String playerName) {
+        prompt.display(playerName + " chose " + gesture.getId() + " - " + gesture.name());
+        return gesture;
     }
 
     private ReplayOption getReplayOption() {
@@ -79,6 +88,11 @@ public class Game {
     }
 
     private static Player[] createPlayers(GestureIdGenerator gestureIdGenerator, CommandLinePrompt prompt) {
-        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new ComputerPlayer(prompt, PLAYER_TWO, gestureIdGenerator)};
+        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new ComputerPlayer(PLAYER_TWO, gestureIdGenerator)};
+    }
+
+    private static GestureIdGenerator createGestureIdGenerator() {
+        SecureRandomWrapper secureRandom = new SecureRandomWrapper(new SecureRandom());
+        return new GestureIdGenerator(new RandomNumber(1, secureRandom));
     }
 }

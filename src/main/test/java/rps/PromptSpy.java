@@ -13,7 +13,7 @@ public class PromptSpy implements Prompt {
     private List<Gesture> gesturesChosenByPlayers = new ArrayList<>();
     private int currentReplayInputIndex = 0;
     private int numberOfTimesPlayerPromptedForReplay = 0;
-    private String messageDisplayed;
+    private int hasPromptedUser = 0;
 
     public PromptSpy(Writer writer, String[] playersChoiceOfGestures, String[] replayOption) {
         this.writer = writer;
@@ -21,17 +21,13 @@ public class PromptSpy implements Prompt {
         this.playersChoiceOfReplayOptions = replayOption;
     }
 
-    public PromptSpy(Writer writer) {
-        this.writer = writer;
-    }
-
     @Override
     public void promptForGestureFrom(String playerId) {
+        hasPromptedUser++;
     }
 
     @Override
     public void display(String message) {
-        this.messageDisplayed = message;
         try {
             writer.write(message);
         } catch (IOException e) {
@@ -64,7 +60,8 @@ public class PromptSpy implements Prompt {
         return gesturesChosenByPlayers;
     }
 
-    public String getMessageDisplayed() {
-        return messageDisplayed;
+    public int numberOfTimesUsersHaveBeenPrompted() {
+        return hasPromptedUser;
     }
+
 }

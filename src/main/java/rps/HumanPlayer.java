@@ -11,7 +11,7 @@ public class HumanPlayer implements Player {
 
     @Override
     public Gesture getGesture() {
-        return prompt.readValidGestureFrom("human player");
+        return prompt.readValidGestureFrom(getName());
     }
 
     @Override

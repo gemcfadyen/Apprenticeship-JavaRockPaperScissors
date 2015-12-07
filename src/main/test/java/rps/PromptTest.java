@@ -36,7 +36,7 @@ public class PromptTest {
     public void displaysStatus() {
         prompt.display("Winner");
 
-        assertThat(writer.toString(), is("Winner\n"));
+        assertThat(writer.toString(), is("Winner\n\n"));
     }
 
     @Test
