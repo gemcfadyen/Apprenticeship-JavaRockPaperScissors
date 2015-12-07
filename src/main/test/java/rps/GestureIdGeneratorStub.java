@@ -7,7 +7,7 @@ public class GestureIdGeneratorStub extends GestureIdGenerator {
         this.idToReturn = idToReturn;
     }
 
-    public int id() {
+    public int nextInt() {
         return idToReturn;
     }
 }

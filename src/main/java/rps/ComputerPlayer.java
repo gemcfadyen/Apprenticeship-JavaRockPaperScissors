@@ -11,7 +11,7 @@ public class ComputerPlayer implements Player {
 
     @Override
     public Gesture getGesture() {
-        return Gesture.withId(gestureIdGenerator.id());
+        return Gesture.withId(gestureIdGenerator.nextInt());
     }
 
     @Override

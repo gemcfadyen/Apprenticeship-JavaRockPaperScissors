@@ -1,20 +1,17 @@
 package rps;
 
 public class GestureIdGenerator {
-
     private RandomNumberWithinRange randomNumber;
-    private int lowerBound;
 
     GestureIdGenerator() {
 
     }
 
-    public GestureIdGenerator(RandomNumberWithinRange randomNumber, int lowerBound) {
+    public GestureIdGenerator(RandomNumberWithinRange randomNumber) {
         this.randomNumber = randomNumber;
-        this.lowerBound = lowerBound;
     }
 
-    public int id() {
-        return randomNumber.generate() + lowerBound;
+    public int nextInt() {
+        return randomNumber.generate();
     }
 }
