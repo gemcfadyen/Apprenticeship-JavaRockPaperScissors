@@ -8,21 +8,21 @@ import static org.junit.Assert.assertThat;
 public class GestureIdGeneratorTest {
     @Test
     public void generatesOne() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(1));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(0), 1);
 
         assertThat(gestureIdGenerator.id(), is(1));
     }
 
     @Test
     public void generatesTwo() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(2));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(1), 1);
 
         assertThat(gestureIdGenerator.id(), is(2));
     }
 
     @Test
     public void generatesThree() {
-        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(3));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new TestRandomNumber(2), 1);
 
         assertThat(gestureIdGenerator.id(), is(3));
     }
