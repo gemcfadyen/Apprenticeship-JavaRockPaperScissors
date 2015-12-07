@@ -2,6 +2,7 @@ package rps;
 
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.security.SecureRandom;
 
 import static rps.ReplayOption.*;
 
@@ -21,8 +22,11 @@ public class Game {
     }
 
     public static void main(String... args) {
-        GestureIdGenerator gestureIdGenerator = null;
-        Game game = new Game(buildPrompt(), new Player[]{new HumanPlayer(PLAYER_ONE, buildPrompt()), new ComputerPlayer(PLAYER_TWO, gestureIdGenerator)});
+        SecureRandomWrapper secureRandom = new SecureRandomWrapper(new SecureRandom());
+        GestureIdGenerator gestureIdGenerator = new GestureIdGenerator(new RandomNumber(1, secureRandom));
+        CommandLinePrompt prompt = buildPrompt();
+        Game game = new Game(prompt, createPlayers(gestureIdGenerator, prompt));
+
         game.play();
     }
 
@@ -72,5 +76,9 @@ public class Game {
                 new InputStreamReader(System.in),
                 new OutputStreamWriter(System.out)
         );
+    }
+
+    private static Player[] createPlayers(GestureIdGenerator gestureIdGenerator, CommandLinePrompt prompt) {
+        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new ComputerPlayer(prompt, PLAYER_TWO, gestureIdGenerator)};
     }
 }

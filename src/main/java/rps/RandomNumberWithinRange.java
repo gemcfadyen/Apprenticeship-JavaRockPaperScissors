@@ -1,5 +1,5 @@
 package rps;
 
 public interface RandomNumberWithinRange {
-    int generate();
+    int generateToMaxOf(int upperBoundary);
 }

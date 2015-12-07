@@ -3,7 +3,7 @@ package rps;
 public interface Prompt {
     void promptForGestureFrom(String playerId);
 
-    void display(String status);
+    void display(String message);
 
     Gesture readValidGestureFrom(String playerId);
 

@@ -2,6 +2,8 @@ package rps;
 
 import org.junit.Test;
 
+import java.io.StringWriter;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static rps.Gesture.PAPER;
@@ -10,9 +12,11 @@ import static rps.Gesture.SCISSORS;
 
 public class ComputerPlayerTest {
 
+    private PromptSpy prompt = new PromptSpy(new StringWriter());
+
     @Test
     public void generatesRock() {
-        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(ROCK.getId()));
+        Player player = new ComputerPlayer(prompt, "", new GestureIdGeneratorStub(ROCK.getId()));
 
         Gesture gesture = player.getGesture();
 
@@ -21,7 +25,8 @@ public class ComputerPlayerTest {
 
     @Test
     public void generatesPaper() {
-        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(PAPER.getId()));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(PAPER.getId());
+        Player player = new ComputerPlayer(prompt, "", gestureIdGenerator);
 
         Gesture gesture = player.getGesture();
 
@@ -30,7 +35,8 @@ public class ComputerPlayerTest {
 
     @Test
     public void generateScissors() {
-        Player player = new ComputerPlayer("", new GestureIdGeneratorStub(SCISSORS.getId()));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(SCISSORS.getId());
+        Player player = new ComputerPlayer(prompt, "", gestureIdGenerator);
 
         Gesture gesture = player.getGesture();
 
@@ -39,10 +45,21 @@ public class ComputerPlayerTest {
 
     @Test
     public void getsId() {
-        Player player = new ComputerPlayer("Robot", new GestureIdGeneratorStub(SCISSORS.getId()));
+        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(SCISSORS.getId());
+        Player player = new ComputerPlayer(prompt, "Robot", gestureIdGenerator);
 
         String name = player.getName();
 
         assertThat(name, is("Robot"));
+    }
+
+    @Test
+    public void displaysComputerChoice() {
+        GestureIdGenerator gestureIdGenerator = new GestureIdGeneratorStub(SCISSORS.getId());
+        Player player = new ComputerPlayer(prompt, "Robot", gestureIdGenerator);
+
+        player.getGesture();
+
+        assertThat(prompt.getMessageDisplayed(), is("Robot chose 3 - SCISSORS"));
     }
 }

@@ -107,7 +107,7 @@ public class GameTest {
     public void playerAskedForReplay() {
         PromptSpy player1PromptSpy = createPromptSpyWithUserInput(new String[]{"1", "2"});
         PromptSpy player2PromptSpy = createPromptSpyWithUserInput(new String[]{"2", "2"});
-        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[] {"Y", "N"});
+        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[]{"Y", "N"});
         game = new Game(gamePrompt, new Player[]{new HumanPlayer("one", player1PromptSpy), new HumanPlayer("two", player2PromptSpy)});
 
         game.play();

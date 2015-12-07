@@ -11,35 +11,29 @@ public class PromptSpy implements Prompt {
     private String[] playersChoiceOfReplayOptions;
     private int currentInputIndex = 0;
     private List<Gesture> gesturesChosenByPlayers = new ArrayList<>();
-    private int numberOfTimesPlayerHasBeenPrompted = 0;
     private int currentReplayInputIndex = 0;
     private int numberOfTimesPlayerPromptedForReplay = 0;
+    private String messageDisplayed;
 
     public PromptSpy(Writer writer, String[] playersChoiceOfGestures, String[] replayOption) {
         this.writer = writer;
         this.playersChoiceOfGestures = playersChoiceOfGestures;
         this.playersChoiceOfReplayOptions = replayOption;
     }
-//
-//    public PromptSpy(Writer writer, String[] playersChoiceOfGestures) {
-//        this.writer = writer;
-//        this.playersChoiceOfGestures = playersChoiceOfGestures;
-////        this.playersChoiceOfReplayOptions = playersChoiceOfGestures;
-//    }
 
-//    public PromptSpy(String... replayOptions) {
-//        this.playersChoiceOfReplayOptions = replayOptions;
-//    }
-
-    @Override
-    public void promptForGestureFrom(String playerId) {
-        numberOfTimesPlayerHasBeenPrompted++;
+    public PromptSpy(Writer writer) {
+        this.writer = writer;
     }
 
     @Override
-    public void display(String status) {
+    public void promptForGestureFrom(String playerId) {
+    }
+
+    @Override
+    public void display(String message) {
+        this.messageDisplayed = message;
         try {
-            writer.write(status);
+            writer.write(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,15 +56,15 @@ public class PromptSpy implements Prompt {
         return ReplayOption.of(playersChoiceOfReplayOptions[currentReplayInputIndex++]);
     }
 
-    public int numberOfTimesPlayersHaveBeenPrompted() {
-        return numberOfTimesPlayerHasBeenPrompted++;
-    }
-
     public int numberOfTimesPlayerPromptedForReplay() {
         return numberOfTimesPlayerPromptedForReplay;
     }
 
     public List<Gesture> getGesturesEntered() {
         return gesturesChosenByPlayers;
+    }
+
+    public String getMessageDisplayed() {
+        return messageDisplayed;
     }
 }

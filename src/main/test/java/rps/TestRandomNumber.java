@@ -8,7 +8,7 @@ public class TestRandomNumber implements RandomNumberWithinRange {
     }
 
     @Override
-    public int generate() {
+    public int generateToMaxOf(int upperBoundary) {
         return number;
     }
 }
