@@ -2,22 +2,32 @@ package rps;
 
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.security.SecureRandom;
 
 import static rps.ReplayOption.*;
 
 public class Game {
+    private static final int PLAYER_ONE_INDEX = 0;
+    private static final int PLAYER_TWO_INDEX = 1;
     private static final String PLAYER_ONE = "Player one ";
     private static final String PLAYER_TWO = "Player two ";
     private static final String DRAW = "Draw";
     private static final String WON = "won";
     private final Prompt prompt;
+    private Player[] players;
 
-    public Game(Prompt prompt) {
+    public Game(Prompt prompt, Player[] players) {
         this.prompt = prompt;
+        this.players = players;
     }
 
     public static void main(String... args) {
-        Game game = new Game(buildPrompt());
+        CommandLinePrompt prompt = buildPrompt();
+        Game game = new Game(
+                prompt,
+                createPlayers(createGestureIdGenerator(), prompt)
+        );
+
         game.play();
     }
 
@@ -32,8 +42,8 @@ public class Game {
 
     void playSingleRound() {
         String status = evaluate(
-                getGestureFrom(PLAYER_ONE),
-                getGestureFrom(PLAYER_TWO)
+                getGestureFrom(PLAYER_ONE_INDEX),
+                getGestureFrom(PLAYER_TWO_INDEX)
         );
 
         prompt.display(status);
@@ -51,9 +61,25 @@ public class Game {
         return PLAYER_TWO + WON;
     }
 
-    private Gesture getGestureFrom(String playerId) {
-        prompt.promptForGestureFrom(playerId);
-        return prompt.readValidGestureFrom(playerId);
+    private Gesture getGestureFrom(int playerIndex) {
+        Player currentPlayer = getCurrentPlayer(playerIndex);
+        Gesture gesture = getGestureFrom(currentPlayer);
+        printGesture(gesture, currentPlayer.getName());
+
+        return gesture;
+    }
+
+    private Player getCurrentPlayer(int playerIndex) {
+        return players[playerIndex];
+    }
+
+    private Gesture getGestureFrom(Player currentPlayer) {
+        prompt.promptForGestureFrom(currentPlayer.getName());
+        return currentPlayer.getGesture();
+    }
+
+    private void printGesture(Gesture gesture, String playerName) {
+        prompt.display(playerName + " chose " + gesture.getId() + " - " + gesture.name());
     }
 
     private ReplayOption getReplayOption() {
@@ -66,5 +92,14 @@ public class Game {
                 new InputStreamReader(System.in),
                 new OutputStreamWriter(System.out)
         );
+    }
+
+    private static Player[] createPlayers(GestureIdGenerator gestureIdGenerator, CommandLinePrompt prompt) {
+        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new ComputerPlayer(PLAYER_TWO, gestureIdGenerator)};
+    }
+
+    private static GestureIdGenerator createGestureIdGenerator() {
+        SecureRandomWrapper secureRandom = new SecureRandomWrapper(new SecureRandom());
+        return new GestureIdGenerator(new RandomNumber(1, secureRandom));
     }
 }

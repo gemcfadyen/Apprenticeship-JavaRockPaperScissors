@@ -22,7 +22,7 @@ public class CommandLinePrompt implements Prompt {
 
     @Override
     public void display(String status) {
-        write(status);
+        write(status + newLine());
     }
 
     @Override

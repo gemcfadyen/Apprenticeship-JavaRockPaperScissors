@@ -14,13 +14,15 @@ import static rps.Gesture.ROCK;
 import static rps.Gesture.SCISSORS;
 
 public class GameTest {
+    private static final String[] NO_GESTURES = null;
     private Game game;
     private Writer writer;
 
     @Before
     public void setup() {
         writer = new StringWriter();
-        game = new Game(new PromptSpy(writer, new String[] {""}));
+        PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""},new String[]{"N"});
+        game = new Game(gamePrompt, new Player[]{createHumanPlayer(gamePrompt, "Human-1"), createHumanPlayer(gamePrompt, "Human-2")});
     }
 
     @Test
@@ -79,38 +81,60 @@ public class GameTest {
 
     @Test
     public void playersPromptedToSelectTheirGesture() {
-        PromptSpy promptSpy = createPromptSpyWithUserInput("1", "2");
-        game = new Game(promptSpy);
+        PromptSpy player1PromptSpy = createPromptSpyWithUserInput("1");
+        PromptSpy player2PromptSpy = createPromptSpyWithUserInput("2");
+        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[]{"N"});
+        game = new Game(gamePrompt, new Player[]{
+                createHumanPlayer(player1PromptSpy, "one"),
+                createHumanPlayer(player2PromptSpy, "two")}
+        );
 
         game.playSingleRound();
 
-        assertThat(promptSpy.numberOfTimesPlayersHaveBeenPrompted(), is(2));
-        assertThat(promptSpy.getGesturesEntered(), contains(ROCK, PAPER));
+        assertThat(gamePrompt.numberOfTimesUsersHaveBeenPrompted(), is(2));
+        assertThat(player1PromptSpy.getGesturesEntered(), contains(ROCK));
+        assertThat(player2PromptSpy.getGesturesEntered(), contains(PAPER));
     }
 
     @Test
     public void playerOneEntersStrongerGestureThanPlayerTwoSoWins() {
-        game = new Game(createPromptSpyWithUserInput("1", "2"));
+        PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[] {"N"});
+        game = new Game(gamePrompt,
+                new Player[]{
+                        createHumanPlayer(createPromptSpyWithUserInput("1"), "one"),
+                        createHumanPlayer(createPromptSpyWithUserInput("2"), "two")}
+        );
 
         game.playSingleRound();
 
-        assertThat(writer.toString(), is("Player two won"));
+        assertThat(writer.toString().contains("one chose 1 - ROCK"), is(true));
+        assertThat(writer.toString().contains("two chose 2 - PAPER"), is(true));
+        assertThat(writer.toString().contains("Player two won"), is(true));
     }
 
     @Test
     public void playerAskedForReplay() {
-        PromptSpy promptSpy = new PromptSpy(writer, new String[] {"1", "2", "2", "2"}, new String[]{"Y", "N"});
-        game = new Game(promptSpy);
+        PromptSpy player1PromptSpy = createPromptSpyWithUserInput("1", "2");
+        PromptSpy player2PromptSpy = createPromptSpyWithUserInput("2", "2");
+        PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[]{"Y", "N"});
+        game = new Game(gamePrompt,
+                new Player[]{
+                        createHumanPlayer(player1PromptSpy, "one"),
+                        createHumanPlayer(player2PromptSpy, "two")}
+        );
 
         game.play();
 
-        String output = writer.toString();
-        assertThat(output.contains("Player two won"), is(true));
-        assertThat(output.contains("Draw"), is(true));
-        assertThat(promptSpy.numberOfTimesPlayerPromptedForReplay(), is(2));
+        assertThat(gamePrompt.numberOfTimesPlayerPromptedForReplay(), is(2));
+        assertThat(player1PromptSpy.getGesturesEntered(), contains(ROCK, PAPER));
+        assertThat(player2PromptSpy.getGesturesEntered(), contains(PAPER, PAPER));
     }
 
     private PromptSpy createPromptSpyWithUserInput(String... input) {
-        return new PromptSpy(writer, input);
+        return new PromptSpy(writer, input, new String[]{"N"});
+    }
+
+    private HumanPlayer createHumanPlayer(PromptSpy player1PromptSpy, String name) {
+        return new HumanPlayer(name, player1PromptSpy);
     }
 }
