@@ -1,5 +1,6 @@
 package rps;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
@@ -9,10 +10,11 @@ import static org.junit.Assert.assertThat;
 
 public class RandomPlayerTest {
 
+    private RandomPlayer randomPlayer;
+
     @Test
     public void playerChooses1() {
-        Random randomNumberGenerator = new RandomMock(1);
-        RandomPlayer randomPlayer = new RandomPlayer(randomNumberGenerator);
+        randomPlayer = new RandomPlayer(new RandomMock(1));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -21,8 +23,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChooses2() {
-        Random randomNumberGenerator = new RandomMock(2);
-        RandomPlayer randomPlayer = new RandomPlayer(randomNumberGenerator);
+        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(2));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -31,8 +32,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChooses3() {
-        Random randomNumberGenerator = new RandomMock(3);
-        RandomPlayer randomPlayer = new RandomPlayer(randomNumberGenerator);
+        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(3));
 
         Gesture gesture = randomPlayer.getGesture();
 
