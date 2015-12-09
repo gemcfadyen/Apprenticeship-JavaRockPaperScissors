@@ -2,6 +2,7 @@ package rps;
 
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static rps.Gesture.PAPER;
@@ -115,6 +116,11 @@ public class GestureTest {
     @Test
     public void scissorsDoesNotMatchPaper() {
         assertThat(SCISSORS.matches(PAPER), is(false));
+    }
+
+    @Test
+    public void getGestures() {
+        assertThat(Gesture.getGestures(), contains(ROCK, PAPER, SCISSORS));
     }
 
     @Test(expected = InvalidGestureException.class)

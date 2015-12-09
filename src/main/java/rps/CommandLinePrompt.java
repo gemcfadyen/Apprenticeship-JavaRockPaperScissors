@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.List;
 
-import static rps.Gesture.*;
+import static rps.Gesture.getGestures;
+import static rps.Gesture.withId;
 
 public class CommandLinePrompt implements Prompt {
     private final BufferedReader reader;
@@ -64,11 +66,11 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private String formatGesturesForPrompt() {
-        Gesture[] gestures = values();
+        List<Gesture> gestures = getGestures();
         String optionsForDisplay = "";
-        for (int gestureNumber = 0; gestureNumber < gestures.length; gestureNumber++) {
-            optionsForDisplay += gestures[gestureNumber].getId() + " for " + gestures[gestureNumber].name();
-            optionsForDisplay = optionallyAddNewLineCharacter(optionsForDisplay, gestureNumber);
+        for (Gesture gesture : gestures) {
+            optionsForDisplay += gesture.getId() + " for " + gesture.name();
+            optionsForDisplay = optionallyAddNewLineCharacter(optionsForDisplay, gesture.getId());
         }
         return optionsForDisplay;
     }
@@ -81,7 +83,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private boolean lastLine(int gestureNumber) {
-        return gestureNumber < values().length - 1;
+        return gestureNumber < getGestures().size();
     }
 
     private void write(String message) {
@@ -116,7 +118,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private boolean isValidGestureId(int numericInput) {
-        for (Gesture gesture : values()) {
+        for (Gesture gesture : getGestures()) {
             if (gesture.getId() == numericInput) {
                 return true;
             }

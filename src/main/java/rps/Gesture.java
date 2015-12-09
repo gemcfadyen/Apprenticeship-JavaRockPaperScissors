@@ -1,5 +1,8 @@
 package rps;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Gesture {
     ROCK(1), PAPER(2), SCISSORS(3);
 
@@ -32,6 +35,10 @@ public enum Gesture {
 
     public boolean matches(Gesture gesture) {
         return getId() == gesture.getId();
+    }
+
+    public static List<Gesture> getGestures() {
+        return Arrays.asList(values());
     }
 
     private boolean paperWrapsRock(Gesture gesture) {
