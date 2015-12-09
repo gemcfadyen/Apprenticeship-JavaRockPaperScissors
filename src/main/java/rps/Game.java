@@ -25,7 +25,7 @@ public class Game {
         CommandLinePrompt prompt = buildPrompt();
         Game game = new Game(
                 prompt,
-                createPlayers(createGestureIdGenerator(), prompt)
+                createPlayers(prompt)
         );
 
         game.play();
@@ -42,8 +42,8 @@ public class Game {
 
     void playSingleRound() {
         String status = evaluate(
-                getGestureFrom(PLAYER_ONE_INDEX),
-                getGestureFrom(PLAYER_TWO_INDEX)
+                getGestureFromHuman(),
+                getGestureFromRandom()
         );
 
         prompt.display(status);
@@ -61,10 +61,23 @@ public class Game {
         return PLAYER_TWO + WON;
     }
 
-    private Gesture getGestureFrom(int playerIndex) {
-        Player currentPlayer = getCurrentPlayer(playerIndex);
+    private Gesture getGestureFromRandom() {
+        Player currentPlayer = getCurrentPlayer(PLAYER_TWO_INDEX);
+        Gesture gesture = getGestureFromPlayer(currentPlayer);
+
+        return gesture;
+    }
+
+    private Gesture getGestureFromPlayer(Player currentPlayer) {
         Gesture gesture = getGestureFrom(currentPlayer);
         printGesture(gesture, currentPlayer.getName());
+        return gesture;
+    }
+
+    private Gesture getGestureFromHuman() {
+        Player currentPlayer = getCurrentPlayer(PLAYER_ONE_INDEX);
+        prompt.promptForGestureFrom(currentPlayer.getName());
+        Gesture gesture = getGestureFromPlayer(currentPlayer);
 
         return gesture;
     }
@@ -74,7 +87,6 @@ public class Game {
     }
 
     private Gesture getGestureFrom(Player currentPlayer) {
-        prompt.promptForGestureFrom(currentPlayer.getName());
         return currentPlayer.getGesture();
     }
 
@@ -94,12 +106,7 @@ public class Game {
         );
     }
 
-    private static Player[] createPlayers(GestureIdGenerator gestureIdGenerator, CommandLinePrompt prompt) {
-        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new ComputerPlayer(PLAYER_TWO, gestureIdGenerator)};
-    }
-
-    private static GestureIdGenerator createGestureIdGenerator() {
-        SecureRandomWrapper secureRandom = new SecureRandomWrapper(new SecureRandom());
-        return new GestureIdGenerator(new RandomNumber(1, secureRandom));
+    private static Player[] createPlayers(CommandLinePrompt prompt) {
+        return new Player[]{new HumanPlayer(PLAYER_ONE, prompt), new RandomPlayer(PLAYER_TWO, new SecureRandom())};
     }
 }
