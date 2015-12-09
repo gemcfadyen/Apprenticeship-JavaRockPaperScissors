@@ -31,4 +31,8 @@ public class PromptStub implements Prompt {
     public ReplayOption readValidReplayOption() {
         return null;
     }
+
+    @Override
+    public void displayChosenMove(Gesture gesture, String name) {
+    }
 }

@@ -14,6 +14,7 @@ public class PromptSpy implements Prompt {
     private int currentReplayInputIndex = 0;
     private int numberOfTimesPlayerPromptedForReplay = 0;
     private int hasPromptedUser = 0;
+    private int numberOfTimesMovePrinted = 0;
 
     public PromptSpy(Writer writer, String[] playersChoiceOfGestures, String[] replayOption) {
         this.writer = writer;
@@ -52,6 +53,11 @@ public class PromptSpy implements Prompt {
         return ReplayOption.of(playersChoiceOfReplayOptions[currentReplayInputIndex++]);
     }
 
+    @Override
+    public void displayChosenMove(Gesture gesture, String name) {
+        numberOfTimesMovePrinted++;
+    }
+
     public int numberOfTimesPlayerPromptedForReplay() {
         return numberOfTimesPlayerPromptedForReplay;
     }
@@ -64,4 +70,7 @@ public class PromptSpy implements Prompt {
         return hasPromptedUser;
     }
 
+    public int numberOftimesMovePrinted() {
+        return numberOfTimesMovePrinted;
+    }
 }

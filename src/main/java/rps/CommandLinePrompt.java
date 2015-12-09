@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 
+import static rps.Gesture.*;
+
 public class CommandLinePrompt implements Prompt {
     private final BufferedReader reader;
     private final Writer writer;
@@ -47,8 +49,13 @@ public class CommandLinePrompt implements Prompt {
         return ReplayOption.of(readInput());
     }
 
+    @Override
+    public void displayChosenMove(Gesture gesture, String name) {
+        write(name + " chose " + gesture.getId() + " - " + gesture.name());
+    }
+
     private String formatGesturesForPrompt() {
-        Gesture[] gestures = Gesture.values();
+        Gesture[] gestures = values();
         String optionsForDisplay = "";
         for (int gestureNumber = 0; gestureNumber < gestures.length; gestureNumber++) {
             optionsForDisplay += gestures[gestureNumber].getId() + " for " + gestures[gestureNumber].name();
@@ -65,7 +72,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private boolean lastLine(int gestureNumber) {
-        return gestureNumber < Gesture.values().length - 1;
+        return gestureNumber < values().length - 1;
     }
 
     private void write(String message) {
@@ -96,11 +103,11 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private Gesture transformToGesture(String userInput) {
-        return Gesture.withId(Integer.valueOf(userInput));
+        return withId(Integer.valueOf(userInput));
     }
 
     private boolean isValidGestureId(int numericInput) {
-        for (Gesture gesture : Gesture.values()) {
+        for (Gesture gesture : values()) {
             if (gesture.getId() == numericInput) {
                 return true;
             }

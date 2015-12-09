@@ -21,7 +21,7 @@ public class GameTest {
     @Before
     public void setup() {
         writer = new StringWriter();
-        PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""},new String[]{"N"});
+        PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""}, new String[]{"N"});
         game = new Game(gamePrompt, new Player[]{createHumanPlayer(gamePrompt, "Human-1"), createHumanPlayer(gamePrompt, "Human-2")});
     }
 
@@ -98,7 +98,7 @@ public class GameTest {
 
     @Test
     public void playerOneEntersStrongerGestureThanPlayerTwoSoWins() {
-        PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[] {"N"});
+        PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[]{"N"});
         game = new Game(gamePrompt,
                 new Player[]{
                         createHumanPlayer(createPromptSpyWithUserInput("1"), "one"),
@@ -107,8 +107,7 @@ public class GameTest {
 
         game.playSingleRound();
 
-        assertThat(writer.toString().contains("one chose 1 - ROCK"), is(true));
-        assertThat(writer.toString().contains("two chose 2 - PAPER"), is(true));
+        assertThat(gamePrompt.numberOftimesMovePrinted(), is(2));
         assertThat(writer.toString().contains("Player two won"), is(true));
     }
 

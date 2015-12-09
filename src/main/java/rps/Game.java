@@ -79,7 +79,7 @@ public class Game {
     }
 
     private void printGesture(Gesture gesture, String playerName) {
-        prompt.display(playerName + " chose " + gesture.getId() + " - " + gesture.name());
+        prompt.displayChosenMove(gesture, playerName);
     }
 
     private ReplayOption getReplayOption() {

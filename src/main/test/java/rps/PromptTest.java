@@ -70,6 +70,16 @@ public class PromptTest {
     }
 
     @Test
+    public void printsUsersChoice() {
+        Prompt prompt = new CommandLinePrompt(defaultReader, writer);
+
+        prompt.displayChosenMove(ROCK, "Bob");
+
+        assertThat(writer.toString(), is("Bob chose 1 - ROCK\n"));
+
+    }
+
+    @Test
     public void promptsUserToReplay() {
         prompt.promptForReplay();
 
