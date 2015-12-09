@@ -40,6 +40,18 @@ public class PromptTest {
     }
 
     @Test
+    public void displaysWin() {
+        prompt.displayWinner("Winner name");
+        assertThat(writer.toString(), is("Winner name won\n"));
+    }
+
+    @Test
+    public void displaysDraw() {
+        prompt.displayDraw();
+        assertThat(writer.toString(), is("Draw\n"));
+    }
+
+    @Test
     public void readsInputFromPlayer() {
         Prompt prompt = new CommandLinePrompt(readerWithInput("1\n"), writer);
 

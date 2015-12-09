@@ -17,73 +17,88 @@ public class GameTest {
     private static final String[] NO_GESTURES = null;
     private Game game;
     private Writer writer;
+    private PromptSpy gamePrompt;
 
     @Before
     public void setup() {
         writer = new StringWriter();
-        PromptSpy gamePrompt = new PromptSpy(writer, new String[]{""}, new String[]{"N"});
+        gamePrompt = new PromptSpy(writer, new String[]{""}, new String[]{"N"});
         game = new Game(gamePrompt, new Player[]{createHumanPlayer(gamePrompt, "Human-1"), createHumanPlayer(gamePrompt, "Human-2")});
     }
 
     @Test
     public void firstPlayerChoosesRockWhichBeatsSecondPlayerChoosingScissors() {
-        String status = game.evaluate(ROCK, SCISSORS);
-        assertThat(status, is("Player one won"));
+        game.evaluate(ROCK, SCISSORS);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Human Player"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichLoosesAgainstSecondPlayerChoosingRock() {
-        String status = game.evaluate(SCISSORS, ROCK);
-        assertThat(status, is("Player two won"));
+        game.evaluate(SCISSORS, ROCK);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Random Player"));
     }
 
     @Test
     public void firstPlayerChoosesScissorsWhichBeatsSecondPlayerChoosingPaper() {
-        String status = game.evaluate(SCISSORS, PAPER);
-        assertThat(status, is("Player one won"));
+        game.evaluate(SCISSORS, PAPER);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Human Player"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichLoosesAgainstSecondPlayerChoosingScissors() {
-        String status = game.evaluate(PAPER, SCISSORS);
-        assertThat(status, is("Player two won"));
+        game.evaluate(PAPER, SCISSORS);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Random Player"));
     }
 
     @Test
     public void firstPlayerChoosesPaperWhichBeatsSecondPlayerChoosingRock() {
-        String status = game.evaluate(PAPER, ROCK);
-        assertThat(status, is("Player one won"));
+        game.evaluate(PAPER, ROCK);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Human Player"));
     }
 
     @Test
     public void firstPlayerChoosesRockWhichLoosesAgainstSecondPlayerChoosingPaper() {
-        String status = game.evaluate(ROCK, PAPER);
-        assertThat(status, is("Player two won"));
+        game.evaluate(ROCK, PAPER);
+
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Random Player"));
     }
 
     @Test
     public void bothPlayersChooseRockSoGameDraws() {
-        String status = game.evaluate(ROCK, ROCK);
-        assertThat(status, is("Draw"));
+        game.evaluate(ROCK, ROCK);
+
+        assertThat(gamePrompt.numberOfTimesDrawPrinted(), is(1));
     }
 
     @Test
     public void bothPlayersChoosePaperSoGameDraws() {
-        String status = game.evaluate(PAPER, PAPER);
-        assertThat(status, is("Draw"));
+        game.evaluate(PAPER, PAPER);
+
+        assertThat(gamePrompt.numberOfTimesDrawPrinted(), is(1));
     }
 
     @Test
     public void bothPlayersChooseScissorsSoGameDraws() {
-        String status = game.evaluate(SCISSORS, SCISSORS);
-        assertThat(status, is("Draw"));
+        game.evaluate(SCISSORS, SCISSORS);
+        assertThat(gamePrompt.numberOfTimesDrawPrinted(), is(1));
     }
 
     @Test
     public void playersPromptedToSelectTheirGesture() {
         PromptSpy player1PromptSpy = createPromptSpyWithUserInput("1");
         PromptSpy player2PromptSpy = createPromptSpyWithUserInput("2");
-        PromptSpy gamePrompt = new PromptSpy(writer, null, new String[]{"N"});
+        PromptSpy gamePrompt = new PromptSpy(writer, NO_GESTURES, new String[]{"N"});
         game = new Game(gamePrompt, new Player[]{
                 createHumanPlayer(player1PromptSpy, "one"),
                 createHumanPlayer(player2PromptSpy, "two")}
@@ -91,7 +106,7 @@ public class GameTest {
 
         game.playSingleRound();
 
-        assertThat(gamePrompt.numberOfTimesUsersHaveBeenPrompted(), is(2));
+        assertThat(gamePrompt.numberOfTimesUsersHaveBeenPrompted(), is(1));
         assertThat(player1PromptSpy.getGesturesEntered(), contains(ROCK));
         assertThat(player2PromptSpy.getGesturesEntered(), contains(PAPER));
     }
@@ -108,7 +123,8 @@ public class GameTest {
         game.playSingleRound();
 
         assertThat(gamePrompt.numberOftimesMovePrinted(), is(2));
-        assertThat(writer.toString().contains("Player two won"), is(true));
+        assertThat(gamePrompt.numberOfTimesWinPrinted(), is(1));
+        assertThat(gamePrompt.getWinnersName(), is("Random Player"));
     }
 
     @Test

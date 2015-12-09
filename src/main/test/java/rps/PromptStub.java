@@ -35,4 +35,14 @@ public class PromptStub implements Prompt {
     @Override
     public void displayChosenMove(Gesture gesture, String name) {
     }
+
+    @Override
+    public void displayWinner(String winnerName) {
+
+    }
+
+    @Override
+    public void displayDraw() {
+
+    }
 }

@@ -18,8 +18,7 @@ public class CommandLinePrompt implements Prompt {
 
     @Override
     public void promptForGestureFrom(String playerId) {
-        String message = playerId + " - please enter:\n" + formatGesturesForPrompt();
-        write(message);
+        write(playerId + " - please enter:\n" + formatGesturesForPrompt());
     }
 
     @Override
@@ -52,6 +51,16 @@ public class CommandLinePrompt implements Prompt {
     @Override
     public void displayChosenMove(Gesture gesture, String name) {
         write(name + " chose " + gesture.getId() + " - " + gesture.name());
+    }
+
+    @Override
+    public void displayWinner(String winnerName) {
+        write(winnerName + " won");
+    }
+
+    @Override
+    public void displayDraw() {
+        write("Draw");
     }
 
     private String formatGesturesForPrompt() {

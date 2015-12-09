@@ -9,10 +9,8 @@ import static rps.ReplayOption.*;
 public class Game {
     private static final int PLAYER_ONE_INDEX = 0;
     private static final int PLAYER_TWO_INDEX = 1;
-    private static final String PLAYER_ONE = "Player one ";
-    private static final String PLAYER_TWO = "Player two ";
-    private static final String DRAW = "Draw";
-    private static final String WON = "won";
+    private static final String PLAYER_ONE = "Human Player";
+    private static final String PLAYER_TWO = "Random Player";
     private final Prompt prompt;
     private Player[] players;
 
@@ -41,53 +39,41 @@ public class Game {
     }
 
     void playSingleRound() {
-        String status = evaluate(
-                getGestureFromHuman(),
-                getGestureFromRandom()
+        evaluate(
+                getGestureFromHumanPlayer(),
+                getGestureFromRandomPlayer()
         );
-
-        prompt.display(status);
     }
 
-    String evaluate(Gesture gesture1, Gesture gesture2) {
+    void evaluate(Gesture gesture1, Gesture gesture2) {
         if (gesture1.matches(gesture2)) {
-            return DRAW;
+            prompt.displayDraw();
+        } else if (gesture1.strongerThan(gesture2)) {
+            prompt.displayWinner(PLAYER_ONE);
+        } else {
+            prompt.displayWinner(PLAYER_TWO);
         }
-
-        if (gesture1.strongerThan(gesture2)) {
-            return PLAYER_ONE + WON;
-        }
-
-        return PLAYER_TWO + WON;
     }
 
-    private Gesture getGestureFromRandom() {
-        Player currentPlayer = getCurrentPlayer(PLAYER_TWO_INDEX);
-        Gesture gesture = getGestureFromPlayer(currentPlayer);
-
-        return gesture;
-    }
-
-    private Gesture getGestureFromPlayer(Player currentPlayer) {
-        Gesture gesture = getGestureFrom(currentPlayer);
-        printGesture(gesture, currentPlayer.getName());
-        return gesture;
-    }
-
-    private Gesture getGestureFromHuman() {
+    private Gesture getGestureFromHumanPlayer() {
         Player currentPlayer = getCurrentPlayer(PLAYER_ONE_INDEX);
         prompt.promptForGestureFrom(currentPlayer.getName());
-        Gesture gesture = getGestureFromPlayer(currentPlayer);
+        return getGestureFromPlayer(currentPlayer);
+    }
 
-        return gesture;
+    private Gesture getGestureFromRandomPlayer() {
+        Player currentPlayer = getCurrentPlayer(PLAYER_TWO_INDEX);
+        return getGestureFromPlayer(currentPlayer);
     }
 
     private Player getCurrentPlayer(int playerIndex) {
         return players[playerIndex];
     }
 
-    private Gesture getGestureFrom(Player currentPlayer) {
-        return currentPlayer.getGesture();
+    private Gesture getGestureFromPlayer(Player currentPlayer) {
+        Gesture gesture = currentPlayer.getGesture();
+        printGesture(gesture, currentPlayer.getName());
+        return gesture;
     }
 
     private void printGesture(Gesture gesture, String playerName) {
