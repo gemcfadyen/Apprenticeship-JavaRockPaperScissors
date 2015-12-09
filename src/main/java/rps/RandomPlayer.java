@@ -3,7 +3,7 @@ package rps;
 import java.util.Random;
 
 public class RandomPlayer implements Player {
-    private static final int UPPER_BOUND = 3;
+    private static final int UPPER_BOUND = Gesture.values().length;
     private String name;
     private Random randomNumberGenerator;
 
