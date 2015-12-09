@@ -75,52 +75,57 @@ public class GestureTest {
 
     @Test
     public void twoRocksMatch() {
-        assertThat(ROCK.matches(ROCK), is(true));
+        assertThat(ROCK.isSameAs(ROCK), is(true));
     }
 
     @Test
     public void twoPapersMatch() {
-        assertThat(PAPER.matches(PAPER), is(true));
+        assertThat(PAPER.isSameAs(PAPER), is(true));
     }
 
     @Test
     public void twoScissorsMatch() {
-        assertThat(SCISSORS.matches(SCISSORS), is(true));
+        assertThat(SCISSORS.isSameAs(SCISSORS), is(true));
     }
 
     @Test
     public void rockDoesNotMatchPaper() {
-        assertThat(ROCK.matches(PAPER), is(false));
+        assertThat(ROCK.isSameAs(PAPER), is(false));
     }
 
     @Test
     public void rockDoesNotMatchScissors() {
-        assertThat(ROCK.matches(SCISSORS), is(false));
+        assertThat(ROCK.isSameAs(SCISSORS), is(false));
     }
 
     @Test
     public void paperDoesNotMatchRock() {
-        assertThat(PAPER.matches(ROCK), is(false));
+        assertThat(PAPER.isSameAs(ROCK), is(false));
     }
 
     @Test
     public void paperDoesNotMatchScissors() {
-        assertThat(PAPER.matches(SCISSORS), is(false));
+        assertThat(PAPER.isSameAs(SCISSORS), is(false));
     }
 
     @Test
     public void scissorsDoesNotMatchRock() {
-        assertThat(SCISSORS.matches(ROCK), is(false));
+        assertThat(SCISSORS.isSameAs(ROCK), is(false));
     }
 
     @Test
     public void scissorsDoesNotMatchPaper() {
-        assertThat(SCISSORS.matches(PAPER), is(false));
+        assertThat(SCISSORS.isSameAs(PAPER), is(false));
     }
 
     @Test
     public void getGestures() {
-        assertThat(Gesture.getGestures(), contains(ROCK, PAPER, SCISSORS));
+        assertThat(Gesture.gestures(), contains(ROCK, PAPER, SCISSORS));
+    }
+
+    @Test
+    public void getNumberOfGestures() {
+        assertThat(Gesture.numberOfGestures(), is(3));
     }
 
     @Test(expected = InvalidGestureException.class)

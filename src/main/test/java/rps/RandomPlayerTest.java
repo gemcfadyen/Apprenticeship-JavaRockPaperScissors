@@ -14,16 +14,15 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChoosesRock() {
-        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(0));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(rock()));
 
         Gesture gesture = randomPlayer.getGesture();
 
         assertThat(gesture, is(ROCK));
     }
-
     @Test
     public void playerChoosesPaper() {
-        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(1));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(paper()));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -32,7 +31,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChoosesScissors() {
-        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(2));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(scissors()));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -55,6 +54,18 @@ public class RandomPlayerTest {
         String name = randomPlayer.getName();
 
         assertThat(name, is("Frank"));
+    }
+
+    private int rock() {
+        return ROCK.getId() - 1;
+    }
+
+    private int paper() {
+        return PAPER.getId() - 1;
+    }
+
+    private int scissors() {
+        return Gesture.SCISSORS.getId() - 1;
     }
 
     private static class RandomMock extends Random {

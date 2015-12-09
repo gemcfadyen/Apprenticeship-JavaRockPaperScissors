@@ -33,12 +33,16 @@ public enum Gesture {
         return id;
     }
 
-    public boolean matches(Gesture gesture) {
+    public boolean isSameAs(Gesture gesture) {
         return getId() == gesture.getId();
     }
 
-    public static List<Gesture> getGestures() {
+    public static List<Gesture> gestures() {
         return Arrays.asList(values());
+    }
+
+    public static int numberOfGestures() {
+        return gestures().size();
     }
 
     private boolean paperWrapsRock(Gesture gesture) {

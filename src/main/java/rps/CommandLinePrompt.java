@@ -6,7 +6,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
-import static rps.Gesture.getGestures;
+import static rps.Gesture.gestures;
 import static rps.Gesture.withId;
 
 public class CommandLinePrompt implements Prompt {
@@ -66,7 +66,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private String formatGesturesForPrompt() {
-        List<Gesture> gestures = getGestures();
+            List<Gesture> gestures = gestures();
         String optionsForDisplay = "";
         for (Gesture gesture : gestures) {
             optionsForDisplay += gesture.getId() + " for " + gesture.name();
@@ -83,7 +83,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private boolean lastLine(int gestureNumber) {
-        return gestureNumber < getGestures().size();
+        return gestureNumber < Gesture.numberOfGestures();
     }
 
     private void write(String message) {
@@ -118,7 +118,7 @@ public class CommandLinePrompt implements Prompt {
     }
 
     private boolean isValidGestureId(int numericInput) {
-        for (Gesture gesture : getGestures()) {
+        for (Gesture gesture : gestures()) {
             if (gesture.getId() == numericInput) {
                 return true;
             }

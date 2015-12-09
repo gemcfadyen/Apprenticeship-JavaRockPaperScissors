@@ -45,10 +45,10 @@ public class Game {
         );
     }
 
-    void evaluate(Gesture gesture1, Gesture gesture2) {
-        if (gesture1.matches(gesture2)) {
+    void evaluate(Gesture firstGesture, Gesture secondGesture) {
+        if (firstGesture.isSameAs(secondGesture)) {
             prompt.displayDraw();
-        } else if (gesture1.strongerThan(gesture2)) {
+        } else if (firstGesture.strongerThan(secondGesture)) {
             prompt.displayWinner(PLAYER_ONE);
         } else {
             prompt.displayWinner(PLAYER_TWO);

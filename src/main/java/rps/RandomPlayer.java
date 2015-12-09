@@ -2,11 +2,8 @@ package rps;
 
 import java.util.Random;
 
-import static rps.Gesture.getGestures;
-import static rps.Gesture.withId;
-
 public class RandomPlayer implements Player {
-    private static final int UPPER_BOUND = getGestures().size();
+    private static final int NUMBER_OF_GESTURES = Gesture.numberOfGestures();
     private String name;
     private Random randomNumberGenerator;
 
@@ -16,11 +13,15 @@ public class RandomPlayer implements Player {
     }
 
     public Gesture getGesture() {
-        return Gesture.withId(1 + randomNumberGenerator.nextInt(UPPER_BOUND));
+        return Gesture.withId(generateGestureId());
     }
 
     @Override
     public String getName() {
         return name;
+    }
+
+    private int generateGestureId() {
+        return 1 + randomNumberGenerator.nextInt(NUMBER_OF_GESTURES);
     }
 }
