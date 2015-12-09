@@ -14,7 +14,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChooses1() {
-        randomPlayer = new RandomPlayer(new RandomMock(1));
+        randomPlayer = new RandomPlayer(new RandomMock(0));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -23,7 +23,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChooses2() {
-        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(2));
+        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(1));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -32,7 +32,7 @@ public class RandomPlayerTest {
 
     @Test
     public void playerChooses3() {
-        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(3));
+        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(2));
 
         Gesture gesture = randomPlayer.getGesture();
 

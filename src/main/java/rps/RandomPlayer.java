@@ -10,7 +10,7 @@ public class RandomPlayer implements Player {
     }
 
     public Gesture getGesture() {
-        return Gesture.withId(randomNumberGenerator.nextInt());
+        return Gesture.withId(1 + randomNumberGenerator.nextInt());
     }
 
     @Override
