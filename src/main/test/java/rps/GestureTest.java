@@ -27,6 +27,12 @@ public class GestureTest {
         assertThat(gesture, is(SCISSORS));
     }
 
+
+    @Test(expected = InvalidGestureException.class)
+    public void getExceptionFromInvalidId() {
+        Gesture gesture = Gesture.withId(4);
+    }
+
     @Test
     public void rockBeatsScissors() {
         assertThat(ROCK.strongerThan(SCISSORS), is(true));

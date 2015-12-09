@@ -1,6 +1,5 @@
 package rps;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Random;
@@ -13,8 +12,8 @@ public class RandomPlayerTest {
     private RandomPlayer randomPlayer;
 
     @Test
-    public void playerChooses1() {
-        randomPlayer = new RandomPlayer(new RandomMock(0));
+    public void playerChoosesRock() {
+        randomPlayer = new RandomPlayer("name", new RandomMock(0));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -22,8 +21,8 @@ public class RandomPlayerTest {
     }
 
     @Test
-    public void playerChooses2() {
-        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(1));
+    public void playerChoosesPaper() {
+        randomPlayer = new RandomPlayer("name", new RandomMock(1));
 
         Gesture gesture = randomPlayer.getGesture();
 
@@ -31,12 +30,30 @@ public class RandomPlayerTest {
     }
 
     @Test
-    public void playerChooses3() {
-        RandomPlayer randomPlayer = new RandomPlayer(new RandomMock(2));
+    public void playerChoosesScissors() {
+        randomPlayer = new RandomPlayer("name", new RandomMock(2));
 
         Gesture gesture = randomPlayer.getGesture();
 
         assertThat(gesture, is(Gesture.SCISSORS));
+    }
+
+    @Test
+    public void playerChoosesInvalidOption() {
+        randomPlayer = new RandomPlayer("name", new RandomMock(8));
+
+        Gesture gesture = randomPlayer.getGesture();
+
+        assertThat(gesture, is(Gesture.SCISSORS));
+    }
+
+    @Test
+    public void getsPlayersName() {
+        randomPlayer = new RandomPlayer("Frank", new RandomMock(2));
+
+        String name = randomPlayer.getName();
+
+        assertThat(name, is("Frank"));
     }
 
     private static class RandomMock extends Random {
@@ -47,10 +64,12 @@ public class RandomPlayerTest {
             this.numberToReturn = numberToReturn;
         }
 
-        public int nextInt() {
+        public int nextInt(int upperBound) {
+            if (numberToReturn > upperBound || numberToReturn < 0) {
+                return upperBound - 1;
+            }
             return numberToReturn;
         }
     }
-
 }
 

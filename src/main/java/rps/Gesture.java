@@ -14,8 +14,10 @@ public enum Gesture {
             return ROCK;
         } else if (id == 2) {
             return PAPER;
+        } else if (id == 3) {
+            return SCISSORS;
         }
-        return SCISSORS;
+        throw new InvalidGestureException();
     }
 
     public boolean strongerThan(Gesture gesture) {
