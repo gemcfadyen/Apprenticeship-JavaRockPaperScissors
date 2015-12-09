@@ -9,12 +9,12 @@ public enum Gesture {
         this.id = id;
     }
 
-    public static Gesture withId(int id) {
-        if (id == 1) {
+    public static Gesture withId(int gestureId) {
+        if (gestureId == 1) {
             return ROCK;
-        } else if (id == 2) {
+        } else if (gestureId == 2) {
             return PAPER;
-        } else if (id == 3) {
+        } else if (gestureId == 3) {
             return SCISSORS;
         }
         throw new InvalidGestureException();
@@ -30,20 +30,24 @@ public enum Gesture {
         return id;
     }
 
+    public boolean matches(Gesture gesture) {
+        return getId() == gesture.getId();
+    }
+
     private boolean paperWrapsRock(Gesture gesture) {
-        return gesture == PAPER && id == ROCK.id;
+        return evaluate(gesture, PAPER, ROCK);
     }
 
     private boolean scissorsCutPaper(Gesture gesture) {
-        return gesture == SCISSORS && id == PAPER.id;
+        return evaluate(gesture, SCISSORS, PAPER);
     }
 
     private boolean rockBluntsScissors(Gesture gesture) {
-        return gesture == ROCK && id == SCISSORS.id;
+        return evaluate(gesture, ROCK, SCISSORS);
     }
 
-    public boolean matches(Gesture gesture) {
-        return id == gesture.getId();
+    private boolean evaluate(Gesture gesture, Gesture strongerGesture, Gesture weakerGesture) {
+        return gesture == strongerGesture && getId() == weakerGesture.getId();
     }
 }
 

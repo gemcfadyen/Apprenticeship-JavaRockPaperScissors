@@ -6,45 +6,46 @@ import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static rps.Gesture.*;
 
 public class RandomPlayerTest {
-
+    private static final String DEFAULT_NAME = "name";
     private RandomPlayer randomPlayer;
 
     @Test
     public void playerChoosesRock() {
-        randomPlayer = new RandomPlayer("name", new RandomMock(0));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(0));
 
         Gesture gesture = randomPlayer.getGesture();
 
-        assertThat(gesture, is(Gesture.ROCK));
+        assertThat(gesture, is(ROCK));
     }
 
     @Test
     public void playerChoosesPaper() {
-        randomPlayer = new RandomPlayer("name", new RandomMock(1));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(1));
 
         Gesture gesture = randomPlayer.getGesture();
 
-        assertThat(gesture, is(Gesture.PAPER));
+        assertThat(gesture, is(PAPER));
     }
 
     @Test
     public void playerChoosesScissors() {
-        randomPlayer = new RandomPlayer("name", new RandomMock(2));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(2));
 
         Gesture gesture = randomPlayer.getGesture();
 
-        assertThat(gesture, is(Gesture.SCISSORS));
+        assertThat(gesture, is(SCISSORS));
     }
 
     @Test
     public void playerChoosesInvalidOption() {
-        randomPlayer = new RandomPlayer("name", new RandomMock(8));
+        randomPlayer = new RandomPlayer(DEFAULT_NAME, new RandomMock(8));
 
         Gesture gesture = randomPlayer.getGesture();
 
-        assertThat(gesture, is(Gesture.SCISSORS));
+        assertThat(gesture, is(SCISSORS));
     }
 
     @Test
