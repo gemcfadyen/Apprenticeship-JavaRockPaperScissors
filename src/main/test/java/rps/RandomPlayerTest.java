@@ -57,15 +57,19 @@ public class RandomPlayerTest {
     }
 
     private int rock() {
-        return ROCK.getId() - 1;
+        return subtractOneFrom(ROCK.getId());
     }
 
     private int paper() {
-        return PAPER.getId() - 1;
+        return subtractOneFrom(PAPER.getId());
     }
 
     private int scissors() {
-        return Gesture.SCISSORS.getId() - 1;
+        return subtractOneFrom(SCISSORS.getId());
+    }
+
+    private static int subtractOneFrom(int id) {
+        return id - 1;
     }
 
     private static class RandomMock extends Random {
@@ -78,7 +82,7 @@ public class RandomPlayerTest {
 
         public int nextInt(int upperBound) {
             if (numberToReturn > upperBound || numberToReturn < 0) {
-                return upperBound - 1;
+                return subtractOneFrom(upperBound);
             }
             return numberToReturn;
         }
