@@ -1,5 +1,8 @@
 package rps;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Gesture {
     ROCK(1), PAPER(2), SCISSORS(3);
 
@@ -9,13 +12,15 @@ public enum Gesture {
         this.id = id;
     }
 
-    public static Gesture withId(int id) {
-        if (id == 1) {
+    public static Gesture withId(int gestureId) {
+        if (gestureId == 1) {
             return ROCK;
-        } else if (id == 2) {
+        } else if (gestureId == 2) {
             return PAPER;
+        } else if (gestureId == 3) {
+            return SCISSORS;
         }
-        return SCISSORS;
+        throw new InvalidGestureException();
     }
 
     public boolean strongerThan(Gesture gesture) {
@@ -28,20 +33,32 @@ public enum Gesture {
         return id;
     }
 
+    public boolean isSameAs(Gesture gesture) {
+        return getId() == gesture.getId();
+    }
+
+    public static List<Gesture> gestures() {
+        return Arrays.asList(values());
+    }
+
+    public static int numberOfGestures() {
+        return gestures().size();
+    }
+
     private boolean paperWrapsRock(Gesture gesture) {
-        return gesture == PAPER && id == ROCK.id;
+        return evaluate(gesture, PAPER, ROCK);
     }
 
     private boolean scissorsCutPaper(Gesture gesture) {
-        return gesture == SCISSORS && id == PAPER.id;
+        return evaluate(gesture, SCISSORS, PAPER);
     }
 
     private boolean rockBluntsScissors(Gesture gesture) {
-        return gesture == ROCK && id == SCISSORS.id;
+        return evaluate(gesture, ROCK, SCISSORS);
     }
 
-    public boolean matches(Gesture gesture) {
-        return id == gesture.getId();
+    private boolean evaluate(Gesture gesture, Gesture strongerGesture, Gesture weakerGesture) {
+        return gesture == strongerGesture && getId() == weakerGesture.getId();
     }
 }
 

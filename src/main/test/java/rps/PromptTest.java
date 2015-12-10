@@ -40,6 +40,18 @@ public class PromptTest {
     }
 
     @Test
+    public void displaysWin() {
+        prompt.displayWinner("Winner name");
+        assertThat(writer.toString(), is("Winner name won\n"));
+    }
+
+    @Test
+    public void displaysDraw() {
+        prompt.displayDraw();
+        assertThat(writer.toString(), is("Draw\n"));
+    }
+
+    @Test
     public void readsInputFromPlayer() {
         Prompt prompt = new CommandLinePrompt(readerWithInput("1\n"), writer);
 
@@ -67,6 +79,16 @@ public class PromptTest {
 
         assertThat(writer.toString(), is("Player one - please enter:\n1 for ROCK\n2 for PAPER\n3 for SCISSORS\n"));
         assertThat(gesture, is(PAPER));
+    }
+
+    @Test
+    public void printsUsersChoice() {
+        Prompt prompt = new CommandLinePrompt(defaultReader, writer);
+
+        prompt.displayChosenMove(ROCK, "Bob");
+
+        assertThat(writer.toString(), is("Bob chose 1 - ROCK\n"));
+
     }
 
     @Test

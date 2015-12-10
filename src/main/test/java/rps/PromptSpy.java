@@ -9,11 +9,15 @@ public class PromptSpy implements Prompt {
     private Writer writer;
     private String[] playersChoiceOfGestures;
     private String[] playersChoiceOfReplayOptions;
-    private int currentInputIndex = 0;
     private List<Gesture> gesturesChosenByPlayers = new ArrayList<>();
+    private int currentInputIndex = 0;
     private int currentReplayInputIndex = 0;
     private int numberOfTimesPlayerPromptedForReplay = 0;
     private int hasPromptedUser = 0;
+    private int numberOfTimesMovePrinted = 0;
+    private int numberOfTimesDrawPrinted = 0;
+    private int numberOfTimesWinPrinted = 0;
+    private String winnerName;
 
     public PromptSpy(Writer writer, String[] playersChoiceOfGestures, String[] replayOption) {
         this.writer = writer;
@@ -52,6 +56,22 @@ public class PromptSpy implements Prompt {
         return ReplayOption.of(playersChoiceOfReplayOptions[currentReplayInputIndex++]);
     }
 
+    @Override
+    public void displayChosenMove(Gesture gesture, String name) {
+        numberOfTimesMovePrinted++;
+    }
+
+    @Override
+    public void displayWinner(String winnerName) {
+        this.winnerName = winnerName;
+        numberOfTimesWinPrinted++;
+    }
+
+    @Override
+    public void displayDraw() {
+        numberOfTimesDrawPrinted++;
+    }
+
     public int numberOfTimesPlayerPromptedForReplay() {
         return numberOfTimesPlayerPromptedForReplay;
     }
@@ -64,4 +84,19 @@ public class PromptSpy implements Prompt {
         return hasPromptedUser;
     }
 
+    public int numberOftimesMovePrinted() {
+        return numberOfTimesMovePrinted;
+    }
+
+    public int numberOfTimesDrawPrinted() {
+        return numberOfTimesDrawPrinted;
+    }
+
+    public int numberOfTimesWinPrinted() {
+        return numberOfTimesWinPrinted;
+    }
+
+    public String getWinnersName() {
+        return this.winnerName;
+    }
 }
